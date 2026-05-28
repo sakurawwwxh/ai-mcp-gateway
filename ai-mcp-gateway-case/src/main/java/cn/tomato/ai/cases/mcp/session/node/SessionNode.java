@@ -1,0 +1,39 @@
+package cn.tomato.ai.cases.mcp.session.node;
+
+import cn.bugstack.wrench.design.framework.tree.AbstractMultiThreadStrategyRouter;
+import cn.bugstack.wrench.design.framework.tree.StrategyHandler;
+import cn.tomato.ai.cases.mcp.session.AbstractMcpSessionSupport;
+import cn.tomato.ai.cases.mcp.session.factory.DefaultMcpSessionFactory;
+import cn.tomato.ai.domain.session.model.valobj.SessionConfigVO;
+import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.codec.ServerSentEvent;
+import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+
+/**
+ * @author Wxh
+ * @date 2026年05月28日 21:41
+ */
+@Slf4j
+@Service
+public class SessionNode extends AbstractMcpSessionSupport {
+
+    @Resource
+    private EndNode endNode;
+
+    @Override
+    protected Flux<ServerSentEvent<String>> doApply(String requestParameter, DefaultMcpSessionFactory.DynamicContext dynamicContext) throws Exception {
+
+        SessionConfigVO sessionConfigVO = sessionManagementService.createSession(requestParameter);
+        dynamicContext.setSessionConfigVO(sessionConfigVO);
+
+
+        return router(requestParameter, dynamicContext);
+    }
+
+    @Override
+    public StrategyHandler<String, DefaultMcpSessionFactory.DynamicContext, Flux<ServerSentEvent<String>>> get(String requestParameter, DefaultMcpSessionFactory.DynamicContext dynamicContext) throws Exception {
+        return endNode;
+    }
+}

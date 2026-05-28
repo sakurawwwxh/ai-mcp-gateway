@@ -40,6 +40,10 @@
             <groupId>cn.tomato.ai</groupId>
             <artifactId>ai-mcp-gateway-domain</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.tomato.ai</groupId>
+            <artifactId>ai-mcp-gateway-case</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
