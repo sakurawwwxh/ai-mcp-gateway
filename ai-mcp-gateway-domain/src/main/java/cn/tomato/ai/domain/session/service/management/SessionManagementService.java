@@ -1,4 +1,4 @@
-package cn.tomato.ai.domain.session.service.impl;
+package cn.tomato.ai.domain.session.service.management;
 
 import cn.tomato.ai.domain.session.model.valobj.SessionConfigVO;
 import cn.tomato.ai.domain.session.service.ISessionManagementService;
@@ -51,7 +51,7 @@ public class SessionManagementService implements ISessionManagementService {
         String sessionId = generateSessionId();
         Sinks.Many<ServerSentEvent<String>> sink = Sinks.many().multicast().onBackpressureBuffer();
 
-        String messageEndpoint  = "/" + gatewayId + "/mcp/message?sessionId=" + sessionId;
+        String messageEndpoint  = "/api-gateway/" + gatewayId + "/mcp/sse?sessionId=" + sessionId;
         sink.tryEmitNext(ServerSentEvent.<String>builder()
                 .event("endpoint")
                 .data(messageEndpoint)

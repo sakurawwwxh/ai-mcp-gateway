@@ -1,18 +1,24 @@
 package cn.tomato.ai.trigger.http;
 
 import cn.tomato.ai.api.IMcpGatewayService;
+import cn.tomato.ai.cases.mcp.IMcpMessageService;
 import cn.tomato.ai.cases.mcp.IMcpSessionService;
-import cn.tomato.ai.domain.session.service.impl.SessionManagementService;
+import cn.tomato.ai.domain.session.model.valobj.McpSchemaVO;
+import cn.tomato.ai.domain.session.service.ISessionMessageService;
 import cn.tomato.ai.types.enums.ResponseCode;
 import cn.tomato.ai.types.exception.AppException;
-import io.netty.util.internal.StringUtil;
+import com.alibaba.fastjson2.JSON;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.util.Map;
 
 /**
  * @author Wxh
@@ -27,6 +33,9 @@ public class McpGatewayController implements IMcpGatewayService {
     @Resource
     private IMcpSessionService mcpSessionService;
 
+    @Resource
+    private ISessionMessageService  sessionMessageService;
+
     public McpGatewayController() {
         System.out.println("McpGatewayController");
     }
@@ -37,7 +46,7 @@ public class McpGatewayController implements IMcpGatewayService {
 
         try{
 
-            log.info("建立 mcp 连接{}", gatewayId);
+            log.info("建立 mcp SSE连接{}", gatewayId);
 
             if(StringUtils.isBlank(gatewayId)){
                 log.info("gatewayId is null");
@@ -49,6 +58,46 @@ public class McpGatewayController implements IMcpGatewayService {
         }catch (Exception e){
             log.info("建立mcp连接失败{}",gatewayId);
             throw e;
+        }
+
+    }
+
+    /***
+     * {
+     *     "jsonrpc": "2.0",
+     *     "method": "initialize",
+     *     "id": "8659fe4a-0",
+     *     "params": {
+     *         "protocolVersion": "2024-11-05",
+     *         "capabilities": {},
+     *         "clientInfo": {
+     *             "name": "Java SDK MCP Client",
+     *             "version": "1.0.0"
+     *         }
+     *     }
+     * }
+     */
+    @PostMapping(value = "{gatewayId}/mcp/sse",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @Override
+    public Mono<ResponseEntity<Object>> handleMessage(@PathVariable("gatewayId") String gatewayId,
+                                                      @RequestParam String sessionId,
+                                                      @RequestBody String messageBody) {
+
+        try {
+
+            log.info("处理 mcp SSE消息,gatewayId:{},sessionId:{},messageBody:{}", gatewayId,sessionId, messageBody);
+
+            McpSchemaVO.JSONRPCMessage jsonrpcMessage = McpSchemaVO.deserializeJsonRpcMessage(messageBody);
+
+            McpSchemaVO.JSONRPCResponse jsonrpcResponse = sessionMessageService.processHandleMessage((McpSchemaVO.JSONRPCRequest) jsonrpcMessage);
+
+            log.info("调用结果:{}", JSON.toJSONString(jsonrpcResponse));
+
+            return Mono.just(ResponseEntity.ok(Map.of("status","sent via SSE")));
+
+        } catch (Exception e) {
+
+            return Mono.empty();
         }
 
     }

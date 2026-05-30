@@ -1,7 +1,9 @@
 package cn.tomato.ai.api;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.ServerSentEvent;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 public interface IMcpGatewayService {
 
@@ -15,4 +17,6 @@ public interface IMcpGatewayService {
      * </p>
      */
     Flux<ServerSentEvent<String>> establishSSEConnection(String gatewayId) throws Exception;
+
+    Mono<ResponseEntity<Object>> handleMessage(String gatewayId,String sessionId, String messageBody);
 }
