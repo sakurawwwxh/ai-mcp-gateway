@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 协议注册Mapper -->
+<mapper namespace="cn.tomato.ai.infrastructure.dao.IMcpProtocolRegistryDao">
+
+    <!-- 协议注册结果映射 -->
+    <resultMap id="McpProtocolRegistryMap" type="cn.tomato.ai.infrastructure.dao.po.McpProtocolRegistryPO">
+        <id column="id" property="id"/>
+        <result column="gateway_id" property="gatewayId"/>
+        <result column="tool_id" property="toolId"/>
+        <result column="tool_name" property="toolName"/>
+        <result column="tool_type" property="toolType"/>
+        <result column="tool_description" property="toolDescription"/>
+        <result column="http_url" property="httpUrl"/>
+        <result column="http_method" property="httpMethod"/>
+        <result column="http_headers" property="httpHeaders"/>
+        <result column="timeout" property="timeout"/>
+        <result column="retry_times" property="retryTimes"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 插入协议注册配置 -->
+    <insert id="insert" parameterType="cn.tomato.ai.infrastructure.dao.po.McpProtocolRegistryPO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO mcp_protocol_registry (gateway_id, tool_id, tool_name, tool_type, tool_description, http_url, http_method, http_headers, timeout, retry_times, status)
+        VALUES (#{gatewayId}, #{toolId}, #{toolName}, #{toolType}, #{toolDescription}, #{httpUrl}, #{httpMethod}, #{httpHeaders}, #{timeout}, #{retryTimes}, #{status})
+    </insert>
+
+    <!-- 根据ID更新协议注册配置（动态更新非空字段） -->
+    <update id="updateById" parameterType="cn.tomato.ai.infrastructure.dao.po.McpProtocolRegistryPO">
+        UPDATE mcp_protocol_registry
+        <set>
+            <if test="gatewayId != null">gateway_id = #{gatewayId},</if>
+            <if test="toolId != null">tool_id = #{toolId},</if>
+            <if test="toolName != null">tool_name = #{toolName},</if>
+            <if test="toolType != null">tool_type = #{toolType},</if>
+            <if test="toolDescription != null">tool_description = #{toolDescription},</if>
+            <if test="httpUrl != null">http_url = #{httpUrl},</if>
+            <if test="httpMethod != null">http_method = #{httpMethod},</if>
+            <if test="httpHeaders != null">http_headers = #{httpHeaders},</if>
+            <if test="timeout != null">timeout = #{timeout},</if>
+            <if test="retryTimes != null">retry_times = #{retryTimes},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID删除协议注册配置 -->
+    <delete id="deleteById">
+        DELETE FROM mcp_protocol_registry WHERE id = #{id}
+    </delete>
+
+    <!-- 根据ID查询协议注册配置 -->
+    <select id="selectById" resultMap="McpProtocolRegistryMap">
+        SELECT id, gateway_id, tool_id, tool_name, tool_type, tool_description, http_url, http_method, http_headers, timeout, retry_times, status, create_time, update_time
+        FROM mcp_protocol_registry
+        WHERE id = #{id}
+    </select>
+
+    <!-- 根据网关ID和工具名称查询协议注册配置 -->
+    <select id="selectByGatewayIdAndToolName" resultMap="McpProtocolRegistryMap">
+        SELECT id, gateway_id, tool_id, tool_name, tool_type, tool_description, http_url, http_method, http_headers, timeout, retry_times, status, create_time, update_time
+        FROM mcp_protocol_registry
+        WHERE gateway_id = #{gatewayId} AND tool_name = #{toolName}
+    </select>
+
+    <!-- 根据网关ID查询协议注册列表 -->
+    <select id="selectByGatewayId" resultMap="McpProtocolRegistryMap">
+        SELECT id, gateway_id, tool_id, tool_name, tool_type, tool_description, http_url, http_method, http_headers, timeout, retry_times, status, create_time, update_time
+        FROM mcp_protocol_registry
+        WHERE gateway_id = #{gatewayId}
+    </select>
+
+    <!-- 查询所有协议注册配置 -->
+    <select id="selectAll" resultMap="McpProtocolRegistryMap">
+        SELECT id, gateway_id, tool_id, tool_name, tool_type, tool_description, http_url, http_method, http_headers, timeout, retry_times, status, create_time, update_time
+        FROM mcp_protocol_registry
+    </select>
+
+    <!-- 根据状态查询协议注册配置 -->
+    <select id="selectByStatus" resultMap="McpProtocolRegistryMap">
+        SELECT id, gateway_id, tool_id, tool_name, tool_type, tool_description, http_url, http_method, http_headers, timeout, retry_times, status, create_time, update_time
+        FROM mcp_protocol_registry
+        WHERE status = #{status}
+    </select>
+
+</mapper>
