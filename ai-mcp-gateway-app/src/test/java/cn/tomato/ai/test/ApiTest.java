@@ -32,7 +32,7 @@ public class ApiTest {
                         .build()
         ).build();
 
-        log.info("测试结果:{}", chatClient.prompt("你识别到的工具名是什么").call().content());
+        log.info("测试结果:{}", chatClient.prompt("把tomato转换为大写").call().content());
     }
 
 

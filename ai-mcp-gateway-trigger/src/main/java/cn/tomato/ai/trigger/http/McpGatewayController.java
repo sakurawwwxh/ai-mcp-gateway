@@ -4,10 +4,13 @@ import cn.tomato.ai.api.IMcpGatewayService;
 import cn.tomato.ai.cases.mcp.IMcpMessageService;
 import cn.tomato.ai.cases.mcp.IMcpSessionService;
 import cn.tomato.ai.domain.session.model.valobj.McpSchemaVO;
+import cn.tomato.ai.domain.session.model.valobj.SessionConfigVO;
+import cn.tomato.ai.domain.session.service.ISessionManagementService;
 import cn.tomato.ai.domain.session.service.ISessionMessageService;
 import cn.tomato.ai.types.enums.ResponseCode;
 import cn.tomato.ai.types.exception.AppException;
 import com.alibaba.fastjson2.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -36,10 +39,23 @@ public class McpGatewayController implements IMcpGatewayService {
     @Resource
     private ISessionMessageService  sessionMessageService;
 
+    @Resource
+    private ISessionManagementService  sessionManagementService;
+
+    @Resource
+    private ObjectMapper  objectMapper;
+
     public McpGatewayController() {
         System.out.println("McpGatewayController");
     }
 
+    /**
+     * 建立 SSE 长连接
+     * 客户端通过此接口订阅服务端推送的消息流
+     *
+     * @param gatewayId 网关唯一标识
+     * @return SSE 事件流
+     */
     @GetMapping(value = "{gatewayId}/mcp/sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @Override
     public Flux<ServerSentEvent<String>> establishSSEConnection(@PathVariable("gatewayId") String gatewayId) throws Exception {
@@ -77,6 +93,15 @@ public class McpGatewayController implements IMcpGatewayService {
      *     }
      * }
      */
+    /**
+     * 处理客户端发送的 MCP 消息
+     * 接收 JSON-RPC 格式的请求，解析后分发到对应的 Handler 处理
+     *
+     * @param gatewayId   网关唯一标识
+     * @param sessionId   会话 ID，由 SSE 连接时分配
+     * @param messageBody JSON-RPC 格式的消息体
+     * @return 处理结果
+     */
     @PostMapping(value = "{gatewayId}/mcp/sse",consumes = MediaType.APPLICATION_JSON_VALUE)
     @Override
     public Mono<ResponseEntity<Object>> handleMessage(@PathVariable("gatewayId") String gatewayId,
@@ -87,17 +112,35 @@ public class McpGatewayController implements IMcpGatewayService {
 
             log.info("处理 mcp SSE消息,gatewayId:{},sessionId:{},messageBody:{}", gatewayId,sessionId, messageBody);
 
+            SessionConfigVO session = sessionManagementService.getSession(sessionId);
+
+
+            if (null == session) {
+                log.warn("会话不存在或已过期，gatewayId:{} sessionId:{}", gatewayId, sessionId);
+                return Mono.just(ResponseEntity.notFound().build());
+            }
+
             McpSchemaVO.JSONRPCMessage jsonrpcMessage = McpSchemaVO.deserializeJsonRpcMessage(messageBody);
 
-            McpSchemaVO.JSONRPCResponse jsonrpcResponse = sessionMessageService.processHandleMessage((McpSchemaVO.JSONRPCRequest) jsonrpcMessage);
+            McpSchemaVO.JSONRPCResponse jsonrpcResponse = sessionMessageService.processHandleMessage(jsonrpcMessage);
+
+            if (null != jsonrpcResponse) {
+
+                String responseJson = objectMapper.writeValueAsString(jsonrpcResponse);
+
+                session.getSink().tryEmitNext(ServerSentEvent.<String>builder()
+                        .event("message")
+                        .data(responseJson)
+                        .build());
+            }
 
             log.info("调用结果:{}", JSON.toJSONString(jsonrpcResponse));
 
-            return Mono.just(ResponseEntity.ok(Map.of("status","sent via SSE")));
+            return Mono.just(ResponseEntity.accepted().build());
 
         } catch (Exception e) {
-
-            return Mono.empty();
+            log.error("处理 MCP SSE 消息失败，gatewayId:{} sessionId:{} messageBody:{}", gatewayId, sessionId, messageBody, e);
+            return Mono.just(ResponseEntity.internalServerError().build());
         }
 
     }
