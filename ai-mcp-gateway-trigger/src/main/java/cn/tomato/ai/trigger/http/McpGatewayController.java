@@ -122,7 +122,7 @@ public class McpGatewayController implements IMcpGatewayService {
 
             McpSchemaVO.JSONRPCMessage jsonrpcMessage = McpSchemaVO.deserializeJsonRpcMessage(messageBody);
 
-            McpSchemaVO.JSONRPCResponse jsonrpcResponse = sessionMessageService.processHandleMessage(jsonrpcMessage);
+            McpSchemaVO.JSONRPCResponse jsonrpcResponse = sessionMessageService.processHandleMessage(gatewayId, jsonrpcMessage);
 
             if (null != jsonrpcResponse) {
 

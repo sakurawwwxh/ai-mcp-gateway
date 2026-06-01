@@ -4,5 +4,11 @@ import cn.tomato.ai.domain.session.model.valobj.McpSchemaVO;
 
 public interface ISessionMessageService {
 
-    McpSchemaVO.JSONRPCResponse processHandleMessage(McpSchemaVO.JSONRPCMessage message);
+    /**
+     * 处理MCP消息
+     * @param gatewayId 网关唯一标识
+     * @param message MCP消息对象
+     * @return JSONRPC响应
+     */
+    McpSchemaVO.JSONRPCResponse processHandleMessage(String gatewayId, McpSchemaVO.JSONRPCMessage message);
 }

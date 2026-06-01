@@ -1,5 +1,6 @@
 package cn.tomato.ai.infrastructure.dao;
 
+import cn.tomato.ai.infrastructure.dao.po.McpProtocolMappingPO;
 import cn.tomato.ai.infrastructure.dao.po.McpProtocolRegistryPO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -68,4 +69,11 @@ public interface IMcpProtocolRegistryDao {
      * @return 协议注册列表
      */
     List<McpProtocolRegistryPO> selectByStatus(@Param("status") Integer status);
+
+    /**
+     * 根据网关ID查询协议注册配置
+     * @param gatewayId 网关ID
+     * @return 协议注册对象
+     */
+    McpProtocolRegistryPO queryMcpProtocolRegistryByGatewayId(@Param("gatewayId") String gatewayId);
 }

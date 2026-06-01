@@ -1,11 +1,14 @@
 package cn.tomato.ai.infrastructure.dao.po;
 
+import lombok.Data;
+
 import java.util.Date;
 
 /**
  * 协议映射持久化对象
  * 对应表：mcp_protocol_mapping
  */
+@Data
 public class McpProtocolMappingPO {
     /**
      * 主键ID
@@ -81,124 +84,4 @@ public class McpProtocolMappingPO {
      * 更新时间
      */
     private Date updateTime;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getGatewayId() {
-        return gatewayId;
-    }
-
-    public void setGatewayId(String gatewayId) {
-        this.gatewayId = gatewayId;
-    }
-
-    public Long getToolId() {
-        return toolId;
-    }
-
-    public void setToolId(Long toolId) {
-        this.toolId = toolId;
-    }
-
-    public String getMappingType() {
-        return mappingType;
-    }
-
-    public void setMappingType(String mappingType) {
-        this.mappingType = mappingType;
-    }
-
-    public String getParentPath() {
-        return parentPath;
-    }
-
-    public void setParentPath(String parentPath) {
-        this.parentPath = parentPath;
-    }
-
-    public String getFieldName() {
-        return fieldName;
-    }
-
-    public void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
-    }
-
-    public String getMcpPath() {
-        return mcpPath;
-    }
-
-    public void setMcpPath(String mcpPath) {
-        this.mcpPath = mcpPath;
-    }
-
-    public String getMcpType() {
-        return mcpType;
-    }
-
-    public void setMcpType(String mcpType) {
-        this.mcpType = mcpType;
-    }
-
-    public String getMcpDesc() {
-        return mcpDesc;
-    }
-
-    public void setMcpDesc(String mcpDesc) {
-        this.mcpDesc = mcpDesc;
-    }
-
-    public Integer getIsRequired() {
-        return isRequired;
-    }
-
-    public void setIsRequired(Integer isRequired) {
-        this.isRequired = isRequired;
-    }
-
-    public String getHttpPath() {
-        return httpPath;
-    }
-
-    public void setHttpPath(String httpPath) {
-        this.httpPath = httpPath;
-    }
-
-    public String getHttpLocation() {
-        return httpLocation;
-    }
-
-    public void setHttpLocation(String httpLocation) {
-        this.httpLocation = httpLocation;
-    }
-
-    public Integer getSortOrder() {
-        return sortOrder;
-    }
-
-    public void setSortOrder(Integer sortOrder) {
-        this.sortOrder = sortOrder;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 }

@@ -1,11 +1,14 @@
 package cn.tomato.ai.infrastructure.dao.po;
 
+import lombok.Data;
+
 import java.util.Date;
 
 /**
  * 协议注册持久化对象
  * 对应表：mcp_protocol_registry
  */
+@Data
 public class McpProtocolRegistryPO {
     /**
      * 主键ID
@@ -31,6 +34,11 @@ public class McpProtocolRegistryPO {
      * 工具类型：function/resource
      */
     private String toolType;
+
+    /**
+     * 工具版本
+     */
+    private String toolVersion;
 
     /**
      * 工具描述
@@ -76,116 +84,4 @@ public class McpProtocolRegistryPO {
      * 更新时间
      */
     private Date updateTime;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getGatewayId() {
-        return gatewayId;
-    }
-
-    public void setGatewayId(String gatewayId) {
-        this.gatewayId = gatewayId;
-    }
-
-    public Long getToolId() {
-        return toolId;
-    }
-
-    public void setToolId(Long toolId) {
-        this.toolId = toolId;
-    }
-
-    public String getToolName() {
-        return toolName;
-    }
-
-    public void setToolName(String toolName) {
-        this.toolName = toolName;
-    }
-
-    public String getToolType() {
-        return toolType;
-    }
-
-    public void setToolType(String toolType) {
-        this.toolType = toolType;
-    }
-
-    public String getToolDescription() {
-        return toolDescription;
-    }
-
-    public void setToolDescription(String toolDescription) {
-        this.toolDescription = toolDescription;
-    }
-
-    public String getHttpUrl() {
-        return httpUrl;
-    }
-
-    public void setHttpUrl(String httpUrl) {
-        this.httpUrl = httpUrl;
-    }
-
-    public String getHttpMethod() {
-        return httpMethod;
-    }
-
-    public void setHttpMethod(String httpMethod) {
-        this.httpMethod = httpMethod;
-    }
-
-    public String getHttpHeaders() {
-        return httpHeaders;
-    }
-
-    public void setHttpHeaders(String httpHeaders) {
-        this.httpHeaders = httpHeaders;
-    }
-
-    public Integer getTimeout() {
-        return timeout;
-    }
-
-    public void setTimeout(Integer timeout) {
-        this.timeout = timeout;
-    }
-
-    public Integer getRetryTimes() {
-        return retryTimes;
-    }
-
-    public void setRetryTimes(Integer retryTimes) {
-        this.retryTimes = retryTimes;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 }

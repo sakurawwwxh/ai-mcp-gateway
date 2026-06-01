@@ -16,7 +16,7 @@ import java.util.Map;
 @Service("toolsCallHandler")
 public class ToolsCallHandler implements IRequestHandler {
     @Override
-    public McpSchemaVO.JSONRPCResponse handle(McpSchemaVO.JSONRPCRequest message) {
+    public McpSchemaVO.JSONRPCResponse handle(String gatewayId, McpSchemaVO.JSONRPCRequest message) {
         Object id = message.id();
         Object params = message.params();
 
