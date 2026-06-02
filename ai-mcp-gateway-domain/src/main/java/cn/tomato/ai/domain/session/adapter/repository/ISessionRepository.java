@@ -1,6 +1,9 @@
 package cn.tomato.ai.domain.session.adapter.repository;
 
 import cn.tomato.ai.domain.session.model.valobj.gateway.McpGatewayConfigVO;
+import cn.tomato.ai.domain.session.model.valobj.gateway.McpGatewayToolConfigVO;
+
+import java.util.List;
 
 
 /**
@@ -8,4 +11,6 @@ import cn.tomato.ai.domain.session.model.valobj.gateway.McpGatewayConfigVO;
  */
 public interface ISessionRepository {
     McpGatewayConfigVO queryMcpGatewayConfigByGatewayId(String gatewayId);
+
+    List<McpGatewayToolConfigVO> queryMcpGatewayToolConfigListByGatewayId(String gatewayId);
 }

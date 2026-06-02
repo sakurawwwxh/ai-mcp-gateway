@@ -75,4 +75,6 @@ public interface IMcpProtocolMappingDao {
      * @return 影响行数
      */
     int deleteByToolId(@Param("toolId") Long toolId);
+
+    List<McpProtocolMappingPO> queryMcpGatewayToolConfigList(McpProtocolMappingPO reqPO);
 }

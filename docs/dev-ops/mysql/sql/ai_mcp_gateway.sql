@@ -104,6 +104,7 @@ CREATE TABLE `mcp_protocol_mapping` (
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
+  KEY `idx_gateway_id` (`gateway_id`),
   KEY `idx_tool_id` (`tool_id`),
   KEY `idx_mapping_type` (`mapping_type`),
   KEY `idx_parent_path` (`parent_path`),
@@ -116,13 +117,13 @@ LOCK TABLES `mcp_protocol_mapping` WRITE;
 
 INSERT INTO `mcp_protocol_mapping` (`id`, `gateway_id`, `tool_id`, `mapping_type`, `parent_path`, `field_name`, `mcp_path`, `mcp_type`, `mcp_desc`, `is_required`, `http_path`, `http_location`, `sort_order`, `create_time`, `update_time`)
 VALUES
-	(1,'',1,'request',NULL,'xxxRequest01','xxxRequest01','object',NULL,1,NULL,'body',1,'2026-01-02 13:10:19','2026-01-02 13:10:19'),
-	(2,'',1,'request','xxxRequest01','city','xxxRequest01.city','string','城市名称,如果是中文汉字请先转换为汉语拼音,例如北京:beijing',1,'city','body',1,'2026-01-02 13:10:19','2026-01-02 13:10:19'),
-	(3,'',1,'request','xxxRequest01','company','xxxRequest01.company','object','公司信息,如果是中文汉字请先转换为汉语拼音,例如北京:jd/alibaba',1,NULL,'body',2,'2026-01-02 13:10:19','2026-01-02 13:10:19'),
-	(4,'',1,'request','xxxRequest01.company','name','xxxRequest01.company.name','string','公司名称',1,'company.name','body',1,'2026-01-02 13:10:19','2026-01-02 13:10:19'),
-	(5,'',1,'request','xxxRequest01.company','type','xxxRequest01.company.type','string','公司类型',1,'company.type','body',2,'2026-01-02 13:10:19','2026-01-02 13:10:19'),
-	(6,'',1,'request',NULL,'xxxRequest02','xxxRequest02','object',NULL,1,NULL,'body',2,'2026-01-02 13:10:19','2026-01-02 13:10:19'),
-	(7,'',1,'request','xxxRequest02','employeeCount','xxxRequest02.employeeCount','string','雇员姓名',1,'employeeCount','body',1,'2026-01-02 13:10:19','2026-01-02 13:10:19');
+	(1,'gateway_001',1,'request',NULL,'xxxRequest01','xxxRequest01','object',NULL,1,NULL,'body',1,'2026-01-02 13:10:19','2026-01-02 13:10:19'),
+	(2,'gateway_001',1,'request','xxxRequest01','city','xxxRequest01.city','string','城市名称,如果是中文汉字请先转换为汉语拼音,例如北京:beijing',1,'city','body',1,'2026-01-02 13:10:19','2026-01-02 13:10:19'),
+	(3,'gateway_001',1,'request','xxxRequest01','company','xxxRequest01.company','object','公司信息,如果是中文汉字请先转换为汉语拼音,例如北京:jd/alibaba',1,NULL,'body',2,'2026-01-02 13:10:19','2026-01-02 13:10:19'),
+	(4,'gateway_001',1,'request','xxxRequest01.company','name','xxxRequest01.company.name','string','公司名称',1,'company.name','body',1,'2026-01-02 13:10:19','2026-01-02 13:10:19'),
+	(5,'gateway_001',1,'request','xxxRequest01.company','type','xxxRequest01.company.type','string','公司类型',1,'company.type','body',2,'2026-01-02 13:10:19','2026-01-02 13:10:19'),
+	(6,'gateway_001',1,'request',NULL,'xxxRequest02','xxxRequest02','object',NULL,1,NULL,'body',2,'2026-01-02 13:10:19','2026-01-02 13:10:19'),
+	(7,'gateway_001',1,'request','xxxRequest02','employeeCount','xxxRequest02.employeeCount','string','雇员姓名',1,'employeeCount','body',1,'2026-01-02 13:10:19','2026-01-02 13:10:19');
 
 /*!40000 ALTER TABLE `mcp_protocol_mapping` ENABLE KEYS */;
 UNLOCK TABLES;

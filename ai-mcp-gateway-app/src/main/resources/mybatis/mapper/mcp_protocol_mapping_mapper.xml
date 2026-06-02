@@ -96,4 +96,13 @@
         DELETE FROM mcp_protocol_mapping WHERE tool_id = #{toolId}
     </delete>
 
+
+    <select id="queryMcpGatewayToolConfigList" parameterType="cn.tomato.ai.infrastructure.dao.po.McpProtocolMappingPO"
+            resultMap="McpProtocolMappingMap">
+        SELECT id, gateway_id, tool_id, mapping_type, parent_path, field_name, mcp_path, mcp_type, mcp_desc,
+               is_required, sort_order
+        FROM mcp_protocol_mapping
+        WHERE gateway_id = #{gatewayId}
+        ORDER BY sort_order ASC
+    </select>
 </mapper>
