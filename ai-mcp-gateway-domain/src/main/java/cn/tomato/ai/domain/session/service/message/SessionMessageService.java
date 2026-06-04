@@ -26,7 +26,7 @@ public class SessionMessageService implements ISessionMessageService {
     private Map<String, IRequestHandler> requestHandlerMap;
 
     @Override
-    public McpSchemaVO.JSONRPCResponse processHandleMessage(String gatewayId, McpSchemaVO.JSONRPCMessage message) {
+    public McpSchemaVO.JSONRPCResponse processHandlerMessage(String gatewayId, McpSchemaVO.JSONRPCMessage message) {
 
         if (message instanceof McpSchemaVO.JSONRPCResponse response) {
             log.info("收到结果消息，网关ID: {}", gatewayId);

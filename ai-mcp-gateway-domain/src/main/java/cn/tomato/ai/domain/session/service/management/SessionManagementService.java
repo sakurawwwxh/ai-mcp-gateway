@@ -41,6 +41,7 @@ public class SessionManagementService implements ISessionManagementService {
      */
     public SessionManagementService() {
         cleanupScheduler.scheduleAtFixedRate(this::cleanExpiredSessions,5, 5, TimeUnit.MINUTES);
+        log.info("会话管理服务已启动，会话超时时间: {} 分钟", SESSION_TIMEOUT_MINUTES);
     }
 
     /**
@@ -48,6 +49,7 @@ public class SessionManagementService implements ISessionManagementService {
      */
     @Override
     public SessionConfigVO createSession(String gatewayId) {
+        log.info("创建会话 gatewayId:{}", gatewayId);
         String sessionId = generateSessionId();
         Sinks.Many<ServerSentEvent<String>> sink = Sinks.many().multicast().onBackpressureBuffer();
 

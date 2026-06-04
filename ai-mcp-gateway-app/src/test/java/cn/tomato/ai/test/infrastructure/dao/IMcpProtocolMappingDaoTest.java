@@ -11,9 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-/**
- * 协议映射DAO单元测试
- */
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -22,9 +19,6 @@ public class IMcpProtocolMappingDaoTest {
     @Resource
     private IMcpProtocolMappingDao mcpProtocolMappingDao;
 
-    /**
-     * 测试插入协议映射配置
-     */
     @Test
     public void test_insert() {
         McpProtocolMappingPO mcpProtocolMappingPO = new McpProtocolMappingPO();
@@ -44,9 +38,6 @@ public class IMcpProtocolMappingDaoTest {
         log.info("插入协议映射配置，影响行数：{}，主键ID：{}", rows, mcpProtocolMappingPO.getId());
     }
 
-    /**
-     * 测试根据ID更新协议映射配置
-     */
     @Test
     public void test_updateById() {
         McpProtocolMappingPO mcpProtocolMappingPO = new McpProtocolMappingPO();
@@ -57,9 +48,6 @@ public class IMcpProtocolMappingDaoTest {
         log.info("更新协议映射配置，影响行数：{}", rows);
     }
 
-    /**
-     * 测试根据ID删除协议映射配置
-     */
     @Test
     public void test_deleteById() {
         Long id = 8L;
@@ -67,67 +55,26 @@ public class IMcpProtocolMappingDaoTest {
         log.info("删除协议映射配置，影响行数：{}", rows);
     }
 
-    /**
-     * 测试根据ID查询协议映射配置
-     */
     @Test
-    public void test_selectById() {
+    public void test_queryById() {
         Long id = 1L;
-        McpProtocolMappingPO mcpProtocolMappingPO = mcpProtocolMappingDao.selectById(id);
+        McpProtocolMappingPO mcpProtocolMappingPO = mcpProtocolMappingDao.queryById(id);
         log.info("根据ID查询协议映射配置：{}", mcpProtocolMappingPO);
     }
 
-    /**
-     * 测试根据工具ID查询协议映射列表
-     */
     @Test
-    public void test_selectByToolId() {
-        Long toolId = 1L;
-        List<McpProtocolMappingPO> list = mcpProtocolMappingDao.selectByToolId(toolId);
-        log.info("根据工具ID查询协议映射列表，数量：{}", list.size());
-        list.forEach(item -> log.info("协议映射配置：{}", item));
-    }
-
-    /**
-     * 测试根据工具ID和映射类型查询协议映射列表
-     */
-    @Test
-    public void test_selectByToolIdAndMappingType() {
-        Long toolId = 1L;
-        String mappingType = "request";
-        List<McpProtocolMappingPO> list = mcpProtocolMappingDao.selectByToolIdAndMappingType(toolId, mappingType);
-        log.info("根据工具ID和映射类型查询协议映射列表，数量：{}", list.size());
-        list.forEach(item -> log.info("协议映射配置：{}", item));
-    }
-
-    /**
-     * 测试根据网关ID查询协议映射列表
-     */
-    @Test
-    public void test_selectByGatewayId() {
-        String gatewayId = "gateway_001";
-        List<McpProtocolMappingPO> list = mcpProtocolMappingDao.selectByGatewayId(gatewayId);
-        log.info("根据网关ID查询协议映射列表，数量：{}", list.size());
-        list.forEach(item -> log.info("协议映射配置：{}", item));
-    }
-
-    /**
-     * 测试查询所有协议映射配置
-     */
-    @Test
-    public void test_selectAll() {
-        List<McpProtocolMappingPO> list = mcpProtocolMappingDao.selectAll();
+    public void test_queryAll() {
+        List<McpProtocolMappingPO> list = mcpProtocolMappingDao.queryAll();
         log.info("查询所有协议映射配置，数量：{}", list.size());
         list.forEach(item -> log.info("协议映射配置：{}", item));
     }
 
-    /**
-     * 测试根据工具ID删除所有协议映射配置
-     */
     @Test
-    public void test_deleteByToolId() {
-        Long toolId = 2L;
-        int rows = mcpProtocolMappingDao.deleteByToolId(toolId);
-        log.info("根据工具ID删除协议映射配置，影响行数：{}", rows);
+    public void test_queryMcpGatewayToolConfigList() {
+        McpProtocolMappingPO reqPO = new McpProtocolMappingPO();
+        reqPO.setGatewayId("gateway_001");
+        List<McpProtocolMappingPO> list = mcpProtocolMappingDao.queryMcpGatewayToolConfigList(reqPO);
+        log.info("查询网关工具配置列表，数量：{}", list.size());
+        list.forEach(item -> log.info("协议映射配置：{}", item));
     }
 }

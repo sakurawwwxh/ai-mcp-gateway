@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 协议映射Mapper -->
 <mapper namespace="cn.tomato.ai.infrastructure.dao.IMcpProtocolMappingDao">
 
-    <!-- 协议映射结果映射 -->
     <resultMap id="McpProtocolMappingMap" type="cn.tomato.ai.infrastructure.dao.po.McpProtocolMappingPO">
         <id column="id" property="id"/>
         <result column="gateway_id" property="gatewayId"/>
@@ -22,13 +20,11 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
-    <!-- 插入协议映射配置 -->
     <insert id="insert" parameterType="cn.tomato.ai.infrastructure.dao.po.McpProtocolMappingPO" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO mcp_protocol_mapping (gateway_id, tool_id, mapping_type, parent_path, field_name, mcp_path, mcp_type, mcp_desc, is_required, http_path, http_location, sort_order)
         VALUES (#{gatewayId}, #{toolId}, #{mappingType}, #{parentPath}, #{fieldName}, #{mcpPath}, #{mcpType}, #{mcpDesc}, #{isRequired}, #{httpPath}, #{httpLocation}, #{sortOrder})
     </insert>
 
-    <!-- 根据ID更新协议映射配置（动态更新非空字段） -->
     <update id="updateById" parameterType="cn.tomato.ai.infrastructure.dao.po.McpProtocolMappingPO">
         UPDATE mcp_protocol_mapping
         <set>
@@ -48,61 +44,26 @@
         WHERE id = #{id}
     </update>
 
-    <!-- 根据ID删除协议映射配置 -->
     <delete id="deleteById">
         DELETE FROM mcp_protocol_mapping WHERE id = #{id}
     </delete>
 
-    <!-- 根据ID查询协议映射配置 -->
-    <select id="selectById" resultMap="McpProtocolMappingMap">
+    <select id="queryById" resultMap="McpProtocolMappingMap">
         SELECT id, gateway_id, tool_id, mapping_type, parent_path, field_name, mcp_path, mcp_type, mcp_desc, is_required, http_path, http_location, sort_order, create_time, update_time
         FROM mcp_protocol_mapping
         WHERE id = #{id}
     </select>
 
-    <!-- 根据工具ID查询协议映射列表 -->
-    <select id="selectByToolId" resultMap="McpProtocolMappingMap">
+    <select id="queryAll" resultMap="McpProtocolMappingMap">
         SELECT id, gateway_id, tool_id, mapping_type, parent_path, field_name, mcp_path, mcp_type, mcp_desc, is_required, http_path, http_location, sort_order, create_time, update_time
         FROM mcp_protocol_mapping
-        WHERE tool_id = #{toolId}
-        ORDER BY sort_order
     </select>
 
-    <!-- 根据工具ID和映射类型查询协议映射列表 -->
-    <select id="selectByToolIdAndMappingType" resultMap="McpProtocolMappingMap">
-        SELECT id, gateway_id, tool_id, mapping_type, parent_path, field_name, mcp_path, mcp_type, mcp_desc, is_required, http_path, http_location, sort_order, create_time, update_time
-        FROM mcp_protocol_mapping
-        WHERE tool_id = #{toolId} AND mapping_type = #{mappingType}
-        ORDER BY sort_order
-    </select>
-
-    <!-- 根据网关ID查询协议映射列表 -->
-    <select id="selectByGatewayId" resultMap="McpProtocolMappingMap">
-        SELECT id, gateway_id, tool_id, mapping_type, parent_path, field_name, mcp_path, mcp_type, mcp_desc, is_required, http_path, http_location, sort_order, create_time, update_time
-        FROM mcp_protocol_mapping
-        WHERE gateway_id = #{gatewayId}
-        ORDER BY tool_id, sort_order
-    </select>
-
-    <!-- 查询所有协议映射配置 -->
-    <select id="selectAll" resultMap="McpProtocolMappingMap">
-        SELECT id, gateway_id, tool_id, mapping_type, parent_path, field_name, mcp_path, mcp_type, mcp_desc, is_required, http_path, http_location, sort_order, create_time, update_time
-        FROM mcp_protocol_mapping
-        ORDER BY tool_id, sort_order
-    </select>
-
-    <!-- 根据工具ID删除所有协议映射配置 -->
-    <delete id="deleteByToolId">
-        DELETE FROM mcp_protocol_mapping WHERE tool_id = #{toolId}
-    </delete>
-
-
-    <select id="queryMcpGatewayToolConfigList" parameterType="cn.tomato.ai.infrastructure.dao.po.McpProtocolMappingPO"
-            resultMap="McpProtocolMappingMap">
-        SELECT id, gateway_id, tool_id, mapping_type, parent_path, field_name, mcp_path, mcp_type, mcp_desc,
-               is_required, sort_order
+    <select id="queryMcpGatewayToolConfigList" parameterType="cn.tomato.ai.infrastructure.dao.po.McpProtocolMappingPO" resultMap="McpProtocolMappingMap">
+        SELECT id, gateway_id, tool_id, mapping_type, parent_path, field_name, mcp_path, mcp_type, mcp_desc, is_required, sort_order
         FROM mcp_protocol_mapping
         WHERE gateway_id = #{gatewayId}
         ORDER BY sort_order ASC
     </select>
+
 </mapper>

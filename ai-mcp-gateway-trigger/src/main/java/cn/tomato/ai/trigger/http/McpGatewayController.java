@@ -1,7 +1,6 @@
 package cn.tomato.ai.trigger.http;
 
 import cn.tomato.ai.api.IMcpGatewayService;
-import cn.tomato.ai.cases.mcp.IMcpMessageService;
 import cn.tomato.ai.cases.mcp.IMcpSessionService;
 import cn.tomato.ai.domain.session.model.valobj.McpSchemaVO;
 import cn.tomato.ai.domain.session.model.valobj.SessionConfigVO;
@@ -21,15 +20,13 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.Map;
-
 /**
  * @author Wxh
  * @date 2026年05月28日 17:42
  */
 @Slf4j
 @RestController
-@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS})
 @RequestMapping("/")
 public class McpGatewayController implements IMcpGatewayService {
 
@@ -43,11 +40,7 @@ public class McpGatewayController implements IMcpGatewayService {
     private ISessionManagementService  sessionManagementService;
 
     @Resource
-    private ObjectMapper  objectMapper;
-
-    public McpGatewayController() {
-        System.out.println("McpGatewayController");
-    }
+    private ObjectMapper objectMapper;
 
     /**
      * 建立 SSE 长连接
@@ -58,7 +51,7 @@ public class McpGatewayController implements IMcpGatewayService {
      */
     @GetMapping(value = "{gatewayId}/mcp/sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @Override
-    public Flux<ServerSentEvent<String>> establishSSEConnection(@PathVariable("gatewayId") String gatewayId) throws Exception {
+    public Flux<ServerSentEvent<String>> handleSseConnection(@PathVariable("gatewayId") String gatewayId) throws Exception {
 
         try{
 
@@ -104,8 +97,8 @@ public class McpGatewayController implements IMcpGatewayService {
      */
     @PostMapping(value = "{gatewayId}/mcp/sse",consumes = MediaType.APPLICATION_JSON_VALUE)
     @Override
-    public Mono<ResponseEntity<Object>> handleMessage(@PathVariable("gatewayId") String gatewayId,
-                                                      @RequestParam String sessionId,
+    public Mono<ResponseEntity<Void>> handleMessage(@PathVariable("gatewayId") String gatewayId,
+                                                      @RequestParam("sessionId") String sessionId,
                                                       @RequestBody String messageBody) {
 
         try {
@@ -122,7 +115,7 @@ public class McpGatewayController implements IMcpGatewayService {
 
             McpSchemaVO.JSONRPCMessage jsonrpcMessage = McpSchemaVO.deserializeJsonRpcMessage(messageBody);
 
-            McpSchemaVO.JSONRPCResponse jsonrpcResponse = sessionMessageService.processHandleMessage(gatewayId, jsonrpcMessage);
+            McpSchemaVO.JSONRPCResponse jsonrpcResponse = sessionMessageService.processHandlerMessage(gatewayId, jsonrpcMessage);
 
             if (null != jsonrpcResponse) {
 

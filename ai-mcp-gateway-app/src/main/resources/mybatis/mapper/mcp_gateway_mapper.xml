@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 网关配置Mapper -->
 <mapper namespace="cn.tomato.ai.infrastructure.dao.IMcpGatewayDao">
 
-    <!-- 网关配置结果映射 -->
     <resultMap id="McpGatewayMap" type="cn.tomato.ai.infrastructure.dao.po.McpGatewayPO">
         <id column="id" property="id"/>
         <result column="gateway_id" property="gatewayId"/>
@@ -14,13 +12,11 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
-    <!-- 插入网关配置 -->
     <insert id="insert" parameterType="cn.tomato.ai.infrastructure.dao.po.McpGatewayPO" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO mcp_gateway (gateway_id, gateway_name, gateway_desc, status)
         VALUES (#{gatewayId}, #{gatewayName}, #{gatewayDesc}, #{status})
     </insert>
 
-    <!-- 根据ID更新网关配置（动态更新非空字段） -->
     <update id="updateById" parameterType="cn.tomato.ai.infrastructure.dao.po.McpGatewayPO">
         UPDATE mcp_gateway
         <set>
@@ -31,43 +27,25 @@
         WHERE id = #{id}
     </update>
 
-    <!-- 根据ID删除网关配置 -->
     <delete id="deleteById">
         DELETE FROM mcp_gateway WHERE id = #{id}
     </delete>
 
-    <!-- 根据ID查询网关配置 -->
-    <select id="selectById" resultMap="McpGatewayMap">
+    <select id="queryById" resultMap="McpGatewayMap">
         SELECT id, gateway_id, gateway_name, gateway_desc, status, create_time, update_time
         FROM mcp_gateway
         WHERE id = #{id}
     </select>
 
-    <!-- 根据网关唯一标识查询网关配置 -->
-    <select id="selectByGatewayId" resultMap="McpGatewayMap">
-        SELECT id, gateway_id, gateway_name, gateway_desc, status, create_time, update_time
-        FROM mcp_gateway
-        WHERE gateway_id = #{gatewayId}
-    </select>
-
-    <!-- 查询所有网关配置 -->
-    <select id="selectAll" resultMap="McpGatewayMap">
+    <select id="queryAll" resultMap="McpGatewayMap">
         SELECT id, gateway_id, gateway_name, gateway_desc, status, create_time, update_time
         FROM mcp_gateway
     </select>
 
-    <!-- 根据状态查询网关配置 -->
-    <select id="selectByStatus" resultMap="McpGatewayMap">
-        SELECT id, gateway_id, gateway_name, gateway_desc, status, create_time, update_time
-        FROM mcp_gateway
-        WHERE status = #{status}
-    </select>
-
-
-    <select id="queryMcpGatewayByGatewayId" parameterType="java.lang.String"
-            resultMap="McpGatewayMap">
+    <select id="queryMcpGatewayByGatewayId" parameterType="java.lang.String" resultMap="McpGatewayMap">
         SELECT id, gateway_id, gateway_name, gateway_desc, status
         FROM mcp_gateway
         WHERE gateway_id = #{gatewayId}
     </select>
+
 </mapper>
