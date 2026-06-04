@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
- * 网关协议配置值对象
- * 包含网关及其工具的聚合信息，用于初始化响应和工具列表返回
+ * 网关配置值对象
+ * 包含网关级别信息，用于初始化响应
  */
 @Getter
 @Builder
@@ -26,23 +26,13 @@ public class McpGatewayConfigVO {
     private String gatewayName;
 
     /**
-     * 工具ID
+     * 网关描述
      */
-    private Long toolId;
+    private String gatewayDesc;
 
     /**
-     * 工具名称
+     * 网关版本
      */
-    private String toolName;
-
-    /**
-     * 工具描述
-     */
-    private String toolDesc;
-
-    /**
-     * 工具版本
-     */
-    private String toolVersion;
+    private String version;
 
 }

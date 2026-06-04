@@ -112,7 +112,7 @@ public class SessionManagementService implements ISessionManagementService {
         for (Map.Entry<String, SessionConfigVO> entry : activeSessions.entrySet()) {
             SessionConfigVO sessionConfigVO = entry.getValue();
 
-            if (sessionConfigVO.isActive() || sessionConfigVO.isExpired(SESSION_TIMEOUT_MINUTES)) {
+            if (!sessionConfigVO.isActive() || sessionConfigVO.isExpired(SESSION_TIMEOUT_MINUTES)) {
                 removeSession(sessionConfigVO.getSessionId());
                 cleanedCount++;
             }

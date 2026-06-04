@@ -1,6 +1,9 @@
 package cn.tomato.ai.infrastructure.dao.po;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -9,6 +12,9 @@ import java.util.Date;
  * 对应表：mcp_gateway
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class McpGatewayPO {
     /**
      * 主键ID
@@ -29,6 +35,11 @@ public class McpGatewayPO {
      * 网关描述
      */
     private String gatewayDesc;
+
+    /**
+     * 网关版本
+     */
+    private String version;
 
     /**
      * 状态：0-禁用，1-启用

@@ -11,72 +11,35 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
- * @author Wxh
- * @date 2026年05月29日 17:13
+ * MCP协议初始化处理器
+ * 处理客户端的initialize请求，返回服务器能力和信息
  */
 @Slf4j
 @Service("initializeHandler")
 public class InitializeHandler implements IRequestHandler {
 
-
     @Resource
-    private ISessionRepository  repository;
-
+    private ISessionRepository repository;
 
     /**
-     * 对照 io.modelcontextprotocol.spec.McpServerSession
-     * <br/>
-     * McpServerSession.handle -> McpSchema.JSONRPCRequest -> handleIncomingRequest
-     * -> McpSchema.METHOD_INITIALIZE -> McpAsyncServer.asyncInitializeRequestHandler
-     * -> result -> new McpSchema.JSONRPCResponse(McpSchema.JSONRPC_VERSION, request.id(), result, null)
-     * <br/>
-     * {
-     * "id": "a355a5f7-0",
-     * "jsonrpc": "2.0",
-     * "result": {
-     * "capabilities": {
-     * "completions": {},
-     * "logging": {},
-     * "prompts": {
-     * "listChanged": true
-     * },
-     * "resources": {
-     * "listChanged": true,
-     * "subscribe": false
-     * },
-     * "tools": {
-     * "listChanged": true
-     * }
-     * },
-     * "instructions": "This server provides weather information tools and resources",
-     * "protocolVersion": "2024-11-05",
-     * "serverInfo": {
-     * "name": "ai-mcp-gateway-demo-mcp-server-test",
-     * "version": "1.0.0"
-     * }
-     * }
-     * }
+     * 处理initialize请求
+     * 查询网关配置，组装InitializeResult返回给客户端
      */
-
     @Override
     public McpSchemaVO.JSONRPCResponse handle(String gatewayId, McpSchemaVO.JSONRPCRequest message) {
 
         log.info("消息处理服务-initialize gatewayId:{} request.params:{}", gatewayId, JSON.toJSONString(message.params()));
 
-
         // 1. 转换参数
-        McpSchemaVO.InitializeRequest initializeRequest =  McpSchemaVO.unmarshalFrom(message.params(), new TypeReference<>() {
+        McpSchemaVO.InitializeRequest initializeRequest = McpSchemaVO.unmarshalFrom(message.params(), new TypeReference<>() {
         });
 
         // 2. 查询配置
         McpGatewayConfigVO mcpGatewayConfigVO = repository.queryMcpGatewayConfigByGatewayId(gatewayId);
 
-
-
-        // 3. 组装信息
+        // 3. 组装信息（使用网关级别信息）
         McpSchemaVO.InitializeResult initializeResult = new McpSchemaVO.InitializeResult(initializeRequest.protocolVersion(),
                 new McpSchemaVO.ServerCapabilities(new McpSchemaVO.ServerCapabilities.CompletionCapabilities(),
                         new HashMap<>(),
@@ -84,8 +47,8 @@ public class InitializeHandler implements IRequestHandler {
                         new McpSchemaVO.ServerCapabilities.PromptCapabilities(true),
                         new McpSchemaVO.ServerCapabilities.ResourceCapabilities(false, true),
                         new McpSchemaVO.ServerCapabilities.ToolCapabilities(true)),
-                new McpSchemaVO.Implementation(mcpGatewayConfigVO.getToolName(), mcpGatewayConfigVO.getToolVersion()),
-                mcpGatewayConfigVO.getToolDesc()
+                new McpSchemaVO.Implementation(mcpGatewayConfigVO.getGatewayName(), mcpGatewayConfigVO.getVersion()),
+                mcpGatewayConfigVO.getGatewayDesc()
         );
 
         // 4. 返回结果

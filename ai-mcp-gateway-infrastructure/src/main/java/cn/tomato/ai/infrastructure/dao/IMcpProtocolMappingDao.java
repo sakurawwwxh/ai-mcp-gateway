@@ -5,6 +5,9 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+/**
+ * 协议映射数据访问接口
+ */
 @Mapper
 public interface IMcpProtocolMappingDao {
 
@@ -18,5 +21,11 @@ public interface IMcpProtocolMappingDao {
 
     List<McpProtocolMappingPO> queryAll();
 
-    List<McpProtocolMappingPO> queryMcpGatewayToolConfigList(McpProtocolMappingPO reqPO);
+    /**
+     * 根据协议ID查询映射配置列表
+     *
+     * @param protocolId 协议ID
+     * @return 映射配置列表
+     */
+    List<McpProtocolMappingPO> queryMcpGatewayToolConfigListByProtocolId(Long protocolId);
 }

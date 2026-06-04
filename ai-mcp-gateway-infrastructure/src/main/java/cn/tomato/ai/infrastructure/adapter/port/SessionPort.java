@@ -1,7 +1,7 @@
 package cn.tomato.ai.infrastructure.adapter.port;
 
 import cn.tomato.ai.domain.session.adapter.port.ISessionPort;
-import cn.tomato.ai.domain.session.model.valobj.gateway.McpGatewayProtocolConfigVO;
+import cn.tomato.ai.domain.session.model.valobj.gateway.McpToolProtocolConfigVO;
 import cn.tomato.ai.infrastructure.gateway.GenericHttpGateway;
 import cn.tomato.ai.types.enums.ResponseCode;
 import cn.tomato.ai.types.exception.AppException;
@@ -23,9 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * 会话端口适配器 - 实现领域层定义的 ISessionPort 接口
  * 负责调用外部 HTTP 服务，将 MCP 工具调用转发到实际的后端 API
- *
- * @author Wxh
- * @date 2026年06月03日 17:27
  */
 @Slf4j
 @Component
@@ -46,7 +43,7 @@ public class SessionPort implements ISessionPort {
      * @throws IOException 请求执行异常
      */
     @Override
-    public Object toolCall(McpGatewayProtocolConfigVO.HTTPConfig httpConfig, Object params) throws IOException {
+    public Object toolCall(McpToolProtocolConfigVO.HTTPConfig httpConfig, Object params) throws IOException {
         // 1. 构建请求头
         String httpHeadersJson = httpConfig.getHttpHeaders();
 
@@ -67,7 +64,7 @@ public class SessionPort implements ISessionPort {
         String url = httpConfig.getHttpUrl().replace("localhost", "127.0.0.1");
 
         switch (httpMethod) {
-            // 1. 构建请求体
+            // POST 请求
             case "post": {
                 // 取第一个参数值作为请求体
                 Object requestBodyObj = arguments.values().toArray()[0];
@@ -90,7 +87,7 @@ public class SessionPort implements ISessionPort {
 
                 return responseBody.string();
             }
-            // 2. 执行get请求
+            // GET 请求
             case "get": {
                 Map<String, Object> objMapRequest = new java.util.HashMap<>((Map<String, Object>) arguments.values().toArray()[0]);
 
