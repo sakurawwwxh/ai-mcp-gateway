@@ -22,16 +22,13 @@ public class IMcpProtocolMappingDaoTest {
     @Test
     public void test_insert() {
         McpProtocolMappingPO mcpProtocolMappingPO = new McpProtocolMappingPO();
-        mcpProtocolMappingPO.setGatewayId("gateway_001");
-        mcpProtocolMappingPO.setToolId(1L);
+        mcpProtocolMappingPO.setProtocolId(1L);
         mcpProtocolMappingPO.setMappingType("request");
         mcpProtocolMappingPO.setFieldName("testField");
         mcpProtocolMappingPO.setMcpPath("testRequest.testField");
         mcpProtocolMappingPO.setMcpType("string");
         mcpProtocolMappingPO.setMcpDesc("测试字段");
         mcpProtocolMappingPO.setIsRequired(1);
-        mcpProtocolMappingPO.setHttpPath("testField");
-        mcpProtocolMappingPO.setHttpLocation("body");
         mcpProtocolMappingPO.setSortOrder(1);
 
         int rows = mcpProtocolMappingDao.insert(mcpProtocolMappingPO);
@@ -70,11 +67,10 @@ public class IMcpProtocolMappingDaoTest {
     }
 
     @Test
-    public void test_queryMcpGatewayToolConfigList() {
-        McpProtocolMappingPO reqPO = new McpProtocolMappingPO();
-        reqPO.setGatewayId("gateway_001");
-        List<McpProtocolMappingPO> list = mcpProtocolMappingDao.queryMcpGatewayToolConfigList(reqPO);
-        log.info("查询网关工具配置列表，数量：{}", list.size());
+    public void test_queryMcpGatewayToolConfigListByProtocolId() {
+        Long protocolId = 1L;
+        List<McpProtocolMappingPO> list = mcpProtocolMappingDao.queryMcpGatewayToolConfigListByProtocolId(protocolId);
+        log.info("查询协议映射配置列表，数量：{}", list.size());
         list.forEach(item -> log.info("协议映射配置：{}", item));
     }
 }

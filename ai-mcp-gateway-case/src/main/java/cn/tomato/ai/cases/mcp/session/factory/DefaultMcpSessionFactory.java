@@ -19,18 +19,19 @@ import reactor.core.publisher.Flux;
 @Service
 public class DefaultMcpSessionFactory {
 
-    @Resource
+    @Resource(name = "mcpSessionRootNode")
     private RootNode rootNode;
 
-    public StrategyHandler<String, DefaultMcpSessionFactory.DynamicContext, Flux<ServerSentEvent<String>>> 
-strategyHandler (){
+    public StrategyHandler<String, DefaultMcpSessionFactory.DynamicContext, Flux<ServerSentEvent<String>>>
+    strategyHandler() {
         return rootNode;
     }
+
     @Data
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class DynamicContext{
+    public static class DynamicContext {
         private SessionConfigVO sessionConfigVO;
     }
 }

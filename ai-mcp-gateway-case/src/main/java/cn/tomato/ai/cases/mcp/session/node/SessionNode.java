@@ -16,10 +16,10 @@ import reactor.core.publisher.Flux;
  * @date 2026年05月28日 21:41
  */
 @Slf4j
-@Service
+@Service("mcpSessionSessionNode")
 public class SessionNode extends AbstractMcpSessionSupport {
 
-    @Resource
+    @Resource(name = "mcpSessionEndNode")
     private EndNode endNode;
 
     @Override

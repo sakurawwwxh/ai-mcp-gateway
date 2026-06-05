@@ -1,7 +1,7 @@
 package cn.tomato.ai.test.infrastructure.gateway;
 
-import cn.tomato.ai.infrastructure.dao.IMcpProtocolRegistryDao;
-import cn.tomato.ai.infrastructure.dao.po.McpProtocolRegistryPO;
+import cn.tomato.ai.infrastructure.dao.IMcpProtocolHttpDao;
+import cn.tomato.ai.infrastructure.dao.po.McpProtocolHttpPO;
 import cn.tomato.ai.infrastructure.gateway.GenericHttpGateway;
 import com.alibaba.fastjson.JSON;
 import jakarta.annotation.Resource;
@@ -29,15 +29,15 @@ public class GenericHttpGatewayTest {
     private GenericHttpGateway gateway;
 
     @javax.annotation.Resource
-    private IMcpProtocolRegistryDao mcpProtocolRegistryDao;
+    private IMcpProtocolHttpDao mcpProtocolHttpDao;
 
     @Test
     public void test_post() throws Exception {
-        McpProtocolRegistryPO mcpProtocolRegistryPO = mcpProtocolRegistryDao.queryById(1L);
+        McpProtocolHttpPO mcpProtocolHttpPO = mcpProtocolHttpDao.queryById(1L);
 
-        String httpUrl = mcpProtocolRegistryPO.getHttpUrl();
-        String httpHeaders = mcpProtocolRegistryPO.getHttpHeaders();
-        Integer timeout = mcpProtocolRegistryPO.getTimeout();
+        String httpUrl = mcpProtocolHttpPO.getHttpUrl();
+        String httpHeaders = mcpProtocolHttpPO.getHttpHeaders();
+        Integer timeout = mcpProtocolHttpPO.getTimeout();
 
         // 1. 请求参数
         Map<String, Object> params = new java.util.HashMap<>();

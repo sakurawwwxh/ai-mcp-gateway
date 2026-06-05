@@ -1,5 +1,6 @@
 package cn.tomato.ai.domain.session.service;
 
+import cn.tomato.ai.domain.session.model.entity.HandleMessageCommandEntity;
 import cn.tomato.ai.domain.session.model.valobj.McpSchemaVO;
 
 /**
@@ -17,4 +18,6 @@ public interface ISessionMessageService {
      * @return JSONRPC响应
      */
     McpSchemaVO.JSONRPCResponse processHandlerMessage(String gatewayId, McpSchemaVO.JSONRPCMessage message);
+
+    McpSchemaVO.JSONRPCResponse processHandlerMessage(HandleMessageCommandEntity commandEntity);
 }

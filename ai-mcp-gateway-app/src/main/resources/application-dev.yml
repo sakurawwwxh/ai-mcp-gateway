@@ -34,7 +34,7 @@ spring:
   ai:
     openai:
       base-url: https://token-plan-cn.xiaomimimo.com
-      api-key: tp-ca9aehqfzwl9pc2iudxasxqbjb6o1chf70lbuuh4vwsiibw5
+      api-key: tp-ctdftyhve42rsnqd1u7hef3frr56zg6mtotn47rranlhauve
       chat:
         options:
           model: mimo-v2.5

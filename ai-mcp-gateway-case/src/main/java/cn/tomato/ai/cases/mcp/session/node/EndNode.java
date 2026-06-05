@@ -18,7 +18,7 @@ import java.time.Duration;
  * @date 2026年05月28日 21:42
  */
 @Slf4j
-@Service
+@Service("mcpSessionEndNode")
 public class EndNode extends AbstractMcpSessionSupport {
 
     @Override

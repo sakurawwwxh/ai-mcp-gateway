@@ -1,7 +1,7 @@
 package cn.tomato.ai.test.infrastructure.dao;
 
-import cn.tomato.ai.infrastructure.dao.IMcpProtocolRegistryDao;
-import cn.tomato.ai.infrastructure.dao.po.McpProtocolRegistryPO;
+import cn.tomato.ai.infrastructure.dao.IMcpProtocolHttpDao;
+import cn.tomato.ai.infrastructure.dao.po.McpProtocolHttpPO;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -17,63 +17,58 @@ import java.util.List;
 public class IMcpProtocolRegistryDaoTest {
 
     @Resource
-    private IMcpProtocolRegistryDao mcpProtocolRegistryDao;
+    private IMcpProtocolHttpDao mcpProtocolHttpDao;
 
     @Test
     public void test_insert() {
-        McpProtocolRegistryPO mcpProtocolRegistryPO = new McpProtocolRegistryPO();
-        mcpProtocolRegistryPO.setGatewayId("gateway_001");
-        mcpProtocolRegistryPO.setToolId(2L);
-        mcpProtocolRegistryPO.setToolName("JavaSDKMCPClient_testTool");
-        mcpProtocolRegistryPO.setToolType("function");
-        mcpProtocolRegistryPO.setToolDescription("测试工具");
-        mcpProtocolRegistryPO.setHttpUrl("http://localhost:8701/api/v1/mcp/test");
-        mcpProtocolRegistryPO.setHttpMethod("POST");
-        mcpProtocolRegistryPO.setHttpHeaders("{\"Content-Type\": \"application/json\"}");
-        mcpProtocolRegistryPO.setTimeout(30000);
-        mcpProtocolRegistryPO.setRetryTimes(0);
-        mcpProtocolRegistryPO.setStatus(1);
+        McpProtocolHttpPO po = new McpProtocolHttpPO();
+        po.setProtocolId(1L);
+        po.setHttpUrl("http://localhost:8701/api/v1/mcp/test");
+        po.setHttpMethod("POST");
+        po.setHttpHeaders("{\"Content-Type\": \"application/json\"}");
+        po.setTimeout(30000);
+        po.setRetryTimes(0);
+        po.setStatus(1);
 
-        int rows = mcpProtocolRegistryDao.insert(mcpProtocolRegistryPO);
-        log.info("插入协议注册配置，影响行数：{}，主键ID：{}", rows, mcpProtocolRegistryPO.getId());
+        int rows = mcpProtocolHttpDao.insert(po);
+        log.info("插入HTTP协议配置，影响行数：{}，主键ID：{}", rows, po.getId());
     }
 
     @Test
     public void test_updateById() {
-        McpProtocolRegistryPO mcpProtocolRegistryPO = new McpProtocolRegistryPO();
-        mcpProtocolRegistryPO.setId(1L);
-        mcpProtocolRegistryPO.setToolDescription("更新后的工具描述");
-        mcpProtocolRegistryPO.setTimeout(60000);
+        McpProtocolHttpPO po = new McpProtocolHttpPO();
+        po.setId(1L);
+        po.setTimeout(60000);
 
-        int rows = mcpProtocolRegistryDao.updateById(mcpProtocolRegistryPO);
-        log.info("更新协议注册配置，影响行数：{}", rows);
+        int rows = mcpProtocolHttpDao.updateById(po);
+        log.info("更新HTTP协议配置，影响行数：{}", rows);
     }
 
     @Test
     public void test_deleteById() {
         Long id = 2L;
-        int rows = mcpProtocolRegistryDao.deleteById(id);
-        log.info("删除协议注册配置，影响行数：{}", rows);
+        int rows = mcpProtocolHttpDao.deleteById(id);
+        log.info("删除HTTP协议配置，影响行数：{}", rows);
     }
 
     @Test
     public void test_queryById() {
         Long id = 1L;
-        McpProtocolRegistryPO mcpProtocolRegistryPO = mcpProtocolRegistryDao.queryById(id);
-        log.info("根据ID查询协议注册配置：{}", mcpProtocolRegistryPO);
+        McpProtocolHttpPO po = mcpProtocolHttpDao.queryById(id);
+        log.info("根据ID查询HTTP协议配置：{}", po);
     }
 
     @Test
     public void test_queryAll() {
-        List<McpProtocolRegistryPO> list = mcpProtocolRegistryDao.queryAll();
-        log.info("查询所有协议注册配置，数量：{}", list.size());
-        list.forEach(item -> log.info("协议注册配置：{}", item));
+        List<McpProtocolHttpPO> list = mcpProtocolHttpDao.queryAll();
+        log.info("查询所有HTTP协议配置，数量：{}", list.size());
+        list.forEach(item -> log.info("HTTP协议配置：{}", item));
     }
 
     @Test
-    public void test_queryMcpProtocolRegistryByGatewayId() {
-        String gatewayId = "gateway_001";
-        McpProtocolRegistryPO mcpProtocolRegistryPO = mcpProtocolRegistryDao.queryMcpProtocolRegistryByGatewayId(gatewayId);
-        log.info("根据网关ID查询协议注册配置：{}", mcpProtocolRegistryPO);
+    public void test_queryMcpProtocolHttpByProtocolId() {
+        Long protocolId = 1L;
+        McpProtocolHttpPO po = mcpProtocolHttpDao.queryMcpProtocolHttpByProtocolId(protocolId);
+        log.info("根据协议ID查询HTTP协议配置：{}", po);
     }
 }
