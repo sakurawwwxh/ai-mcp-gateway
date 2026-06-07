@@ -47,6 +47,11 @@ public class McpGatewayPO {
     private Integer status;
 
     /**
+     * 状态：0-不校验，1-强校验
+     */
+    private Integer auth;
+
+    /**
      * 创建时间
      */
     private Date createTime;

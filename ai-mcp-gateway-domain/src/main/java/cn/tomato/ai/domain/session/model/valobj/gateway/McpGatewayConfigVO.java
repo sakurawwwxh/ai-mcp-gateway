@@ -35,4 +35,9 @@ public class McpGatewayConfigVO {
      */
     private String version;
 
+    /**
+     * 认证模式：0-不校验，1-强校验
+     */
+    private Integer auth;
+
 }

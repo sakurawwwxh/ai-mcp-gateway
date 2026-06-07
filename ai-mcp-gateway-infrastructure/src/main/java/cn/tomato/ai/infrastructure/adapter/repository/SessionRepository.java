@@ -53,6 +53,7 @@ public class SessionRepository implements ISessionRepository {
                 .gatewayName(mcpGatewayPO.getGatewayName())
                 .gatewayDesc(mcpGatewayPO.getGatewayDesc())
                 .version(mcpGatewayPO.getVersion())
+                .auth(mcpGatewayPO.getAuth())
                 .build();
     }
 

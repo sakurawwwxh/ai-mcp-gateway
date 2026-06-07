@@ -40,6 +40,23 @@
         WHERE id = #{id}
     </select>
 
+    <select id="queryEffectiveGatewayAuth" resultMap="McpGatewayAuthMap">
+        SELECT id, gateway_id, api_key, rate_limit, expire_time, status, create_time, update_time
+        FROM mcp_gateway_auth
+        WHERE gateway_id = #{gatewayId}
+          AND api_key = #{apiKey}
+          AND status = 1
+        ORDER BY id DESC
+        LIMIT 1
+    </select>
+
+    <select id="queryEffectiveGatewayAuthCount" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM mcp_gateway_auth
+        WHERE gateway_id = #{gatewayId}
+          AND status = 1
+    </select>
+
     <select id="queryAll" resultMap="McpGatewayAuthMap">
         SELECT id, gateway_id, api_key, rate_limit, expire_time, status, create_time, update_time
         FROM mcp_gateway_auth

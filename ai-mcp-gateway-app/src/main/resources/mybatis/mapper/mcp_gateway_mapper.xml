@@ -9,13 +9,14 @@
         <result column="gateway_desc" property="gatewayDesc"/>
         <result column="version" property="version"/>
         <result column="status" property="status"/>
+        <result column="auth" property="auth"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
     <insert id="insert" parameterType="cn.tomato.ai.infrastructure.dao.po.McpGatewayPO" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO mcp_gateway (gateway_id, gateway_name, gateway_desc, version, status)
-        VALUES (#{gatewayId}, #{gatewayName}, #{gatewayDesc}, #{version}, #{status})
+        INSERT INTO mcp_gateway (gateway_id, gateway_name, gateway_desc, version, status,auth)
+        VALUES (#{gatewayId}, #{gatewayName}, #{gatewayDesc}, #{version}, #{status},#{auth})
     </insert>
 
     <update id="updateById" parameterType="cn.tomato.ai.infrastructure.dao.po.McpGatewayPO">
@@ -25,6 +26,7 @@
             gateway_desc = #{gatewayDesc},
             version = #{version},
             status = #{status},
+            auth = #{auth},
             update_time = NOW()
         WHERE id = #{id}
     </update>
@@ -34,19 +36,19 @@
     </delete>
 
     <select id="queryById" parameterType="java.lang.Long" resultMap="McpGatewayMap">
-        SELECT id, gateway_id, gateway_name, gateway_desc, version, status, create_time, update_time
+        SELECT id, gateway_id, gateway_name, gateway_desc, version, status, auth, create_time, update_time
         FROM mcp_gateway
         WHERE id = #{id}
     </select>
 
     <select id="queryAll" resultMap="McpGatewayMap">
-        SELECT id, gateway_id, gateway_name, gateway_desc, version, status, create_time, update_time
+        SELECT id, gateway_id, gateway_name, gateway_desc, version, status, auth, create_time, update_time
         FROM mcp_gateway
         ORDER BY id DESC
     </select>
 
     <select id="queryMcpGatewayByGatewayId" parameterType="java.lang.String" resultMap="McpGatewayMap">
-        SELECT id, gateway_id, gateway_name, gateway_desc, version, status
+        SELECT id, gateway_id, gateway_name, gateway_desc, version, status, auth
         FROM mcp_gateway
         WHERE gateway_id = #{gatewayId}
     </select>

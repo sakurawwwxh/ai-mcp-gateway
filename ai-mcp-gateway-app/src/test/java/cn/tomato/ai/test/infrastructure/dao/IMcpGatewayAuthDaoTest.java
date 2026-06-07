@@ -64,4 +64,16 @@ public class IMcpGatewayAuthDaoTest {
         log.info("查询所有网关认证配置，数量：{}", list.size());
         list.forEach(item -> log.info("网关认证配置：{}", item));
     }
+
+    @Test
+    public void test_queryEffectiveGatewayAuth() {
+        McpGatewayAuthPO mcpGatewayAuthPO = mcpGatewayAuthDao.queryEffectiveGatewayAuth("gateway_001", "TEST_API_KEY_123456");
+        log.info("根据 gatewayId + apiKey 查询有效网关认证配置：{}", mcpGatewayAuthPO);
+    }
+
+    @Test
+    public void test_queryEffectiveGatewayAuthCount() {
+        Integer count = mcpGatewayAuthDao.queryEffectiveGatewayAuthCount("gateway_001");
+        log.info("查询网关有效认证数量：{}", count);
+    }
 }
