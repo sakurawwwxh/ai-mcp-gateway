@@ -29,6 +29,11 @@ public class AppException extends RuntimeException {
         this.info = message;
     }
 
+    public AppException(Integer code, String message) {
+        this.code = String.valueOf(code);
+        this.info = message;
+    }
+
     public AppException(String code, String message, Throwable cause) {
         this.code = code;
         this.info = message;

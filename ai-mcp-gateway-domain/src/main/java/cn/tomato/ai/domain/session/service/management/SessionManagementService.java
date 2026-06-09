@@ -3,6 +3,7 @@ package cn.tomato.ai.domain.session.service.management;
 import cn.tomato.ai.domain.session.model.valobj.SessionConfigVO;
 import cn.tomato.ai.domain.session.service.ISessionManagementService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Sinks;
@@ -48,12 +49,17 @@ public class SessionManagementService implements ISessionManagementService {
      * 创建新会话，生成sessionId和SSE sink，发送端点信息
      */
     @Override
-    public SessionConfigVO createSession(String gatewayId) {
+    public SessionConfigVO createSession(String gatewayId,String apiKey) {
         log.info("创建会话 gatewayId:{}", gatewayId);
         String sessionId = generateSessionId();
         Sinks.Many<ServerSentEvent<String>> sink = Sinks.many().multicast().onBackpressureBuffer();
 
         String messageEndpoint  = "/api-gateway/" + gatewayId + "/mcp/sse?sessionId=" + sessionId;
+
+        if (StringUtils.isNotBlank(apiKey)){
+            messageEndpoint += "&api_key=" + apiKey;
+        }
+
         sink.tryEmitNext(ServerSentEvent.<String>builder()
                 .event("endpoint")
                 .data(messageEndpoint)

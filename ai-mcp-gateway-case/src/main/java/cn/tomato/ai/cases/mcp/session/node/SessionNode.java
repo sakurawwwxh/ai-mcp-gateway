@@ -25,7 +25,12 @@ public class SessionNode extends AbstractMcpSessionSupport {
     @Override
     protected Flux<ServerSentEvent<String>> doApply(String requestParameter, DefaultMcpSessionFactory.DynamicContext dynamicContext) throws Exception {
 
-        SessionConfigVO sessionConfigVO = sessionManagementService.createSession(requestParameter);
+        log.info("创建会话-SessionNode:{}",requestParameter);
+
+        //创建会话服务
+        SessionConfigVO sessionConfigVO = sessionManagementService.createSession(requestParameter,dynamicContext.getApiKey());
+
+        //写入上下文中
         dynamicContext.setSessionConfigVO(sessionConfigVO);
 
 

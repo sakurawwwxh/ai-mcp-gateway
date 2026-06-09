@@ -4,7 +4,7 @@ import cn.tomato.ai.domain.session.model.valobj.SessionConfigVO;
 
 public interface ISessionManagementService {
 
-    SessionConfigVO createSession(String gatewayId);
+    SessionConfigVO createSession(String gatewayId, String apiKey);
 
     void removeSession(String sessionId);
 
