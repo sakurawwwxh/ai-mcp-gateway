@@ -1,4 +1,4 @@
-package cn.tomato.ai.test.domin.session.message;
+package cn.tomato.ai.test.domain.session.message;
 
 import cn.tomato.ai.domain.session.model.valobj.McpSchemaVO;
 import cn.tomato.ai.domain.session.service.message.handle.impl.ToolsCallHandler;

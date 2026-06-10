@@ -1,4 +1,4 @@
-package cn.tomato.ai.test.protocol;
+package cn.tomato.ai.test.demo;
 
 import cn.tomato.ai.domain.protocol.model.valobj.http.HTTPProtocolVO;
 import com.alibaba.fastjson.JSON;
