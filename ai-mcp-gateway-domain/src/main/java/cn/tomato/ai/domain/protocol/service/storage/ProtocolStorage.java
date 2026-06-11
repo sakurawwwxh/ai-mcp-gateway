@@ -1,10 +1,23 @@
 package cn.tomato.ai.domain.protocol.service.storage;
 
+import cn.tomato.ai.domain.protocol.adapter.repository.IProtocolRepository;
+import cn.tomato.ai.domain.protocol.model.entity.StorageCommandEntity;
 import cn.tomato.ai.domain.protocol.service.IProtocolStorage;
+import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
-/**
- * @author Wxh
- * @date 2026年06月09日 16:57
- */
+import java.util.List;
+
+@Slf4j
+@Service
 public class ProtocolStorage implements IProtocolStorage {
+
+    @Resource
+    private IProtocolRepository repository;
+
+    @Override
+    public List<Long> doStorage(StorageCommandEntity commandEntity) {
+        return repository.saveHttpProtocolAndMapping(commandEntity.getHttpProtocolVOS());
+    }
 }
