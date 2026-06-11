@@ -31,6 +31,13 @@
         WHERE id = #{id}
     </update>
 
+    <update id="updateAuthStatusByGatewayId" parameterType="cn.tomato.ai.infrastructure.dao.po.McpGatewayPO">
+        UPDATE mcp_gateway
+        SET auth = #{auth},
+            update_time = NOW()
+        WHERE gateway_id = #{gatewayId}
+    </update>
+
     <delete id="deleteById" parameterType="java.lang.Long">
         DELETE FROM mcp_gateway WHERE id = #{id}
     </delete>

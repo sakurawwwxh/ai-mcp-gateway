@@ -27,4 +27,20 @@ public interface IMcpGatewayToolDao {
      */
     Long queryToolProtocolIdByToolName(McpGatewayToolPO mcpGatewayToolPOReq);
 
+    /**
+     * 插入网关工具配置
+     *
+     * @param po 网关工具配置持久化对象
+     * @return 影响行数
+     */
+    int insert(McpGatewayToolPO po);
+
+    /**
+     * 根据网关ID更新协议ID与协议类型
+     *
+     * @param po 网关工具配置持久化对象（至少包含gatewayId、protocolId、protocolType）
+     * @return 影响行数
+     */
+    int updateProtocolByGatewayId(McpGatewayToolPO po);
+
 }

@@ -16,6 +16,19 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
+    <insert id="insert" parameterType="cn.tomato.ai.infrastructure.dao.po.McpGatewayToolPO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO mcp_gateway_tool (gateway_id, tool_id, tool_name, tool_type, tool_description, tool_version, protocol_id, protocol_type)
+        VALUES (#{gatewayId}, #{toolId}, #{toolName}, #{toolType}, #{toolDescription}, #{toolVersion}, #{protocolId}, #{protocolType})
+    </insert>
+
+    <update id="updateProtocolByGatewayId" parameterType="cn.tomato.ai.infrastructure.dao.po.McpGatewayToolPO">
+        UPDATE mcp_gateway_tool
+        SET protocol_id = #{protocolId},
+            protocol_type = #{protocolType},
+            update_time = NOW()
+        WHERE gateway_id = #{gatewayId}
+    </update>
+
     <!-- 查询网关下的有效工具列表 -->
     <select id="queryEffectiveTools" parameterType="cn.tomato.ai.infrastructure.dao.po.McpGatewayToolPO"
             resultMap="McpGatewayToolMap">
