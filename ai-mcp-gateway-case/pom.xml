@@ -14,6 +14,10 @@
     <dependencies>
         <dependency>
             <groupId>cn.tomato.ai</groupId>
+            <artifactId>ai-mcp-gateway-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.tomato.ai</groupId>
             <artifactId>ai-mcp-gateway-domain</artifactId>
         </dependency>
 

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.concurrent.ThreadPoolExecutor;
@@ -13,6 +14,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Autowired
     private ThreadPoolExecutor threadPoolExecutor;
+
+    @Autowired
+    private AdminAuthInterceptor adminAuthInterceptor;
 
     @Override
     public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
@@ -24,9 +28,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
         taskExecutor.setThreadNamePrefix("async-mvc-");
         taskExecutor.setRejectedExecutionHandler(threadPoolExecutor.getRejectedExecutionHandler());
         taskExecutor.initialize();
-        
+
         configurer.setTaskExecutor(taskExecutor);
         configurer.setDefaultTimeout(30000L); // 30秒超时
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(adminAuthInterceptor)
+                .addPathPatterns("/admin/**");
     }
 
 }

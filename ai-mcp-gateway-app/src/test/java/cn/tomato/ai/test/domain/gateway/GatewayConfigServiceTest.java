@@ -38,8 +38,8 @@ public class GatewayConfigServiceTest {
                 .gatewayName("员工信息查询网关")
                 .gatewayDesc("用于查询公司员工信息的MCP网关")
                 .version("1.0.0")
-                .auth(GatewayEnum.GatewayAuthStatusEnum.ENABLE)
-                .status(GatewayEnum.GatewayStatus.STRONG_VERIFIED)
+                .auth(GatewayEnum.GatewayAuthStatusEnum.STRONG_VERIFIED)
+                .status(GatewayEnum.GatewayStatus.ENABLE)
                 .build();
         commandEntity.setGatewayConfigVO(gatewayConfigVO);
 
@@ -49,7 +49,7 @@ public class GatewayConfigServiceTest {
 
     @Test
     public void test_updateGatewayAuthStatus() {
-        GatewayConfigCommandEntity commandEntity = GatewayConfigCommandEntity.buildUpdateGatewayAuthStatusVO(GATEWAY_ID, GatewayEnum.GatewayAuthStatusEnum.DISABLE);
+        GatewayConfigCommandEntity commandEntity = GatewayConfigCommandEntity.buildUpdateGatewayAuthStatusVO(GATEWAY_ID, GatewayEnum.GatewayAuthStatusEnum.NOT_VERIFIED);
         gatewayConfigService.updateGatewayAuthStatus(commandEntity);
         log.info("更新网关鉴权状态成功 gatewayId: {}", commandEntity.getGatewayConfigVO().getGatewayId());
     }

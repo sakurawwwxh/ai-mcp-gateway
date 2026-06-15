@@ -13,6 +13,11 @@ import java.util.List;
 @Data
 public class HTTPProtocolVO {
 
+    /**
+     * 所属网关ID（用于协议与网关的关联存储）
+     */
+    private String gatewayId;
+
     private String httpUrl;
     private String httpHeaders;
     private String httpMethod;

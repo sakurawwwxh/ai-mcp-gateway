@@ -16,9 +16,9 @@ public enum GatewayEnum {
     @Getter
     public enum GatewayStatus {
 
-        NOT_VERIFIED(0, "不校验"),
+        ENABLE(1, "启用"),
 
-        STRONG_VERIFIED(1, "强校验"),
+        DISABLE(0, "禁用")
         ;
 
         private final Integer code;
@@ -43,9 +43,9 @@ public enum GatewayEnum {
     @Getter
     public enum GatewayAuthStatusEnum {
 
-        ENABLE(1, "启用"),
-        DISABLE(0, "禁用")
+        STRONG_VERIFIED(1, "强校验"),
 
+        NOT_VERIFIED(0, "不校验")
         ;
 
         private final Integer code;

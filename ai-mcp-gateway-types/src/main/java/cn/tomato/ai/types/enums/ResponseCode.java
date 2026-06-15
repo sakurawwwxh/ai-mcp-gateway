@@ -18,6 +18,7 @@ public enum ResponseCode {
 
     AUTH_ERROR_EXPIRE_TIME("1001", "网关服务认证过期"),
     AUTH_ERROR_RATE_LIMIT("1002", "网关请求速率限制"),
+    UNAUTHORIZED("1003", "未登录或登录已过期"),
     ;
 
     private String code;
