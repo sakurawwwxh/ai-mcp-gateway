@@ -21,4 +21,10 @@ public interface IMcpGatewayDao {
     List<McpGatewayPO> queryAll();
 
     McpGatewayPO queryMcpGatewayByGatewayId(String gatewayId);
+
+    /** 分页统计（gatewayId / gatewayName 模糊匹配） */
+    Long queryGatewayListCount(McpGatewayPO query);
+
+    /** 分页查询（gatewayId / gatewayName 模糊匹配） */
+    List<McpGatewayPO> queryGatewayList(McpGatewayPO query);
 }

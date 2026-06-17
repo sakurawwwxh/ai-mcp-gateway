@@ -28,4 +28,10 @@ public interface IMcpProtocolMappingDao {
      * @return 映射配置列表
      */
     List<McpProtocolMappingPO> queryMcpGatewayToolConfigListByProtocolId(Long protocolId);
+
+    /** 根据协议 ID 集合批量查询映射 */
+    List<McpProtocolMappingPO> queryByProtocolIds(java.util.List<Long> protocolIds);
+
+    /** 根据协议 ID 删除映射 */
+    int deleteByProtocolId(Long protocolId);
 }

@@ -1,8 +1,10 @@
 package cn.tomato.ai.infrastructure.dao.po;
 
+import cn.tomato.ai.infrastructure.dao.po.base.BasePagePO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -10,12 +12,16 @@ import java.util.Date;
 /**
  * HTTP协议配置持久化对象
  * 对应表：mcp_protocol_http
+ *
+ * @author Wxh
+ * @date 2026-06-15
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class McpProtocolHttpPO {
+public class McpProtocolHttpPO extends BasePagePO {
 
     /**
      * 主键ID

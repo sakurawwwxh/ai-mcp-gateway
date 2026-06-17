@@ -26,6 +26,8 @@ public class GatewayConfigRequestDTO {
     private GatewayToolConfig gatewayToolConfig;
     private GatewayProtocol gatewayProtocol;
     private GatewayAuth gatewayAuth;
+    /** Swagger 协议导入请求 */
+    private GatewayProtocolImport gatewayProtocolImport;
 
     /**
      * 1) /admin/save_gateway_config 入参
@@ -89,6 +91,10 @@ public class GatewayConfigRequestDTO {
         private String httpHeaders;
         private String httpMethod;
         private Integer timeout;
+        /** 重试次数 0-10 */
+        private Integer retryTimes;
+        /** 启用状态 0-禁用 / 1-启用 */
+        private Integer status;
     }
 
     /**
@@ -125,6 +131,23 @@ public class GatewayConfigRequestDTO {
          */
         @JSONField(format = "yyyy-MM-dd'T'HH:mm:ss")
         private Date expireTime;
+    }
+
+    /**
+     * 5) /admin/analysis_protocol + /admin/import_gateway_protocol 入参
+     * 粘贴 Swagger / OpenAPI JSON，导入时勾选 endpoints
+     */
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class GatewayProtocolImport {
+        /** 归属网关 ID（导入时注入到每条 VO） */
+        private String gatewayId;
+        /** Swagger / OpenAPI JSON 原文 */
+        private String openApiJson;
+        /** 选中的接口路径列表（解析后用户勾选，analysis 时可为 null） */
+        private List<String> endpoints;
     }
 
 }

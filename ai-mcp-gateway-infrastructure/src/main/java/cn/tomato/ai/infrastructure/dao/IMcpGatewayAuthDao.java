@@ -22,4 +22,13 @@ public interface IMcpGatewayAuthDao {
     int queryEffectiveGatewayAuthCount(String gatewayId);
 
     List<McpGatewayAuthPO> queryAll();
+
+    /** 分页统计（gatewayId 精确匹配） */
+    Long queryAuthListCount(McpGatewayAuthPO query);
+
+    /** 分页查询鉴权 */
+    List<McpGatewayAuthPO> queryAuthList(McpGatewayAuthPO query);
+
+    /** 按网关 ID 删除鉴权 */
+    int deleteByGatewayId(String gatewayId);
 }

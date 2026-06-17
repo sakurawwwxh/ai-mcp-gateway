@@ -43,4 +43,20 @@ public interface IMcpGatewayToolDao {
      */
     int updateProtocolByGatewayId(McpGatewayToolPO po);
 
+    /** 查询所有工具 */
+    List<McpGatewayToolPO> queryAll();
+
+    /** 分页统计（gatewayId 精确 + toolName 模糊） */
+    Long queryToolListCount(McpGatewayToolPO query);
+
+    /** 分页查询工具 */
+    List<McpGatewayToolPO> queryToolList(McpGatewayToolPO query);
+
+    /** 根据网关 ID 查询工具列表 */
+    List<McpGatewayToolPO> queryByGatewayId(String gatewayId);
+
+    /** 根据网关 ID + 工具 ID 删除 */
+    int deleteByGatewayIdAndToolId(@org.apache.ibatis.annotations.Param("gatewayId") String gatewayId,
+                                   @org.apache.ibatis.annotations.Param("toolId") Long toolId);
+
 }

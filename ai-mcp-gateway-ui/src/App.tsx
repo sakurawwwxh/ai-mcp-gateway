@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import { useAuthStore } from './stores/auth';
 import { AppLayout } from './components/AppLayout';
@@ -17,32 +17,29 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
+const Fallback = (
+  <div className="min-h-screen w-screen flex items-center justify-center bg-[var(--bg-app)]">
+    <div className="text-sm text-[var(--text-tertiary)]">加载中…</div>
+  </div>
+);
+
+const router = createBrowserRouter([
+  { path: '/login', element: <Suspense fallback={Fallback}><Login /></Suspense> },
+  {
+    path: '/admin',
+    element: <RequireAuth><AppLayout /></RequireAuth>,
+    children: [
+      { index: true, element: <Suspense fallback={Fallback}><Dashboard /></Suspense> },
+      { path: 'gateways',  element: <Suspense fallback={Fallback}><Gateways  /></Suspense> },
+      { path: 'configs',   element: <Suspense fallback={Fallback}><Configs   /></Suspense> },
+      { path: 'tools',     element: <Suspense fallback={Fallback}><Tools     /></Suspense> },
+      { path: 'protocols', element: <Suspense fallback={Fallback}><Protocols /></Suspense> },
+      { path: 'auth',      element: <Suspense fallback={Fallback}><Auth      /></Suspense> },
+    ],
+  },
+  { path: '*', element: <Navigate to="/admin" replace /> },
+]);
+
 export default function App() {
-  return (
-    <Suspense fallback={
-          <div className="min-h-screen w-screen flex items-center justify-center bg-[var(--bg-app)]">
-            <div className="text-sm text-[var(--text-tertiary)]">加载中…</div>
-          </div>
-        }>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/admin/*"
-          element={
-            <RequireAuth>
-              <AppLayout />
-            </RequireAuth>
-          }
-        >
-          <Route index element={<Dashboard />} />
-          <Route path="gateways" element={<Gateways />} />
-          <Route path="configs" element={<Configs />} />
-          <Route path="tools" element={<Tools />} />
-          <Route path="protocols" element={<Protocols />} />
-          <Route path="auth" element={<Auth />} />
-        </Route>
-        <Route path="*" element={<Navigate to="/admin" replace />} />
-      </Routes>
-    </Suspense>
-  );
+  return <RouterProvider router={router} />;
 }

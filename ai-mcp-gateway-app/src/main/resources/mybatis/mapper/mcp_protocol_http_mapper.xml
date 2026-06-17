@@ -56,4 +56,36 @@
         WHERE protocol_id = #{protocolId}
     </select>
 
+    <select id="queryProtocolListCount" parameterType="cn.tomato.ai.infrastructure.dao.po.McpProtocolHttpPO" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM mcp_protocol_http
+        <where>
+            <if test="protocolId != null">AND protocol_id = #{protocolId}</if>
+            <if test="httpUrl != null and httpUrl != ''">AND http_url LIKE CONCAT('%', #{httpUrl}, '%')</if>
+        </where>
+    </select>
+
+    <select id="queryProtocolList" parameterType="cn.tomato.ai.infrastructure.dao.po.McpProtocolHttpPO" resultMap="McpProtocolHttpMap">
+        SELECT id, protocol_id, http_url, http_method, http_headers, timeout, retry_times, status, create_time, update_time
+        FROM mcp_protocol_http
+        <where>
+            <if test="protocolId != null">AND protocol_id = #{protocolId}</if>
+            <if test="httpUrl != null and httpUrl != ''">AND http_url LIKE CONCAT('%', #{httpUrl}, '%')</if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{limitStart}, #{limitCount}
+    </select>
+
+    <select id="queryByProtocolIds" parameterType="java.util.List" resultMap="McpProtocolHttpMap">
+        SELECT id, protocol_id, http_url, http_method, http_headers, timeout, retry_times, status, create_time, update_time
+        FROM mcp_protocol_http
+        WHERE protocol_id IN
+        <foreach collection="list" item="pid" open="(" separator="," close=")">
+            #{pid}
+        </foreach>
+    </select>
+
+    <delete id="deleteByProtocolId" parameterType="java.lang.Long">
+        DELETE FROM mcp_protocol_http WHERE protocol_id = #{protocolId}
+    </delete>
+
 </mapper>

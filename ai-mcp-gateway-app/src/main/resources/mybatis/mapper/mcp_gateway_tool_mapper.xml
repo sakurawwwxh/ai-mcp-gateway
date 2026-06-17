@@ -44,4 +44,46 @@
         WHERE gateway_id = #{gatewayId} and tool_name = #{toolName}
     </select>
 
+    <select id="queryAll" resultMap="McpGatewayToolMap">
+        SELECT id, gateway_id, tool_id, tool_name, tool_type, tool_description, tool_version, protocol_id, protocol_type,
+        create_time, update_time
+        FROM mcp_gateway_tool
+        ORDER BY id DESC
+    </select>
+
+    <select id="queryByGatewayId" parameterType="java.lang.String" resultMap="McpGatewayToolMap">
+        SELECT id, gateway_id, tool_id, tool_name, tool_type, tool_description, tool_version, protocol_id, protocol_type,
+        create_time, update_time
+        FROM mcp_gateway_tool
+        WHERE gateway_id = #{gatewayId}
+        ORDER BY id DESC
+    </select>
+
+    <select id="queryToolListCount" parameterType="cn.tomato.ai.infrastructure.dao.po.McpGatewayToolPO" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM mcp_gateway_tool
+        <where>
+            <if test="gatewayId != null and gatewayId != ''">AND gateway_id = #{gatewayId}</if>
+            <if test="toolName != null and toolName != ''">AND tool_name LIKE CONCAT('%', #{toolName}, '%')</if>
+            <if test="toolId != null">AND tool_id = #{toolId}</if>
+        </where>
+    </select>
+
+    <select id="queryToolList" parameterType="cn.tomato.ai.infrastructure.dao.po.McpGatewayToolPO" resultMap="McpGatewayToolMap">
+        SELECT id, gateway_id, tool_id, tool_name, tool_type, tool_description, tool_version, protocol_id, protocol_type,
+        create_time, update_time
+        FROM mcp_gateway_tool
+        <where>
+            <if test="gatewayId != null and gatewayId != ''">AND gateway_id = #{gatewayId}</if>
+            <if test="toolName != null and toolName != ''">AND tool_name LIKE CONCAT('%', #{toolName}, '%')</if>
+            <if test="toolId != null">AND tool_id = #{toolId}</if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{limitStart}, #{limitCount}
+    </select>
+
+    <delete id="deleteByGatewayIdAndToolId">
+        DELETE FROM mcp_gateway_tool
+        WHERE gateway_id = #{gatewayId} AND tool_id = #{toolId}
+    </delete>
+
 </mapper>

@@ -62,4 +62,25 @@
         FROM mcp_gateway_auth
     </select>
 
+    <select id="queryAuthListCount" parameterType="cn.tomato.ai.infrastructure.dao.po.McpGatewayAuthPO" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM mcp_gateway_auth
+        <where>
+            <if test="gatewayId != null and gatewayId != ''">AND gateway_id = #{gatewayId}</if>
+        </where>
+    </select>
+
+    <select id="queryAuthList" parameterType="cn.tomato.ai.infrastructure.dao.po.McpGatewayAuthPO" resultMap="McpGatewayAuthMap">
+        SELECT id, gateway_id, api_key, rate_limit, expire_time, status, create_time, update_time
+        FROM mcp_gateway_auth
+        <where>
+            <if test="gatewayId != null and gatewayId != ''">AND gateway_id = #{gatewayId}</if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{limitStart}, #{limitCount}
+    </select>
+
+    <delete id="deleteByGatewayId" parameterType="java.lang.String">
+        DELETE FROM mcp_gateway_auth WHERE gateway_id = #{gatewayId}
+    </delete>
+
 </mapper>

@@ -29,4 +29,16 @@ public interface IMcpProtocolHttpDao {
      */
     McpProtocolHttpPO queryMcpProtocolHttpByProtocolId(Long protocolId);
 
+    /** 分页统计（protocolId 精确匹配） */
+    Long queryProtocolListCount(McpProtocolHttpPO query);
+
+    /** 分页查询协议 */
+    List<McpProtocolHttpPO> queryProtocolList(McpProtocolHttpPO query);
+
+    /** 根据协议 ID 集合查询 */
+    List<McpProtocolHttpPO> queryByProtocolIds(java.util.List<Long> protocolIds);
+
+    /** 根据协议 ID 删除协议 */
+    int deleteByProtocolId(Long protocolId);
+
 }

@@ -69,4 +69,19 @@
         ORDER BY sort_order ASC
     </select>
 
+    <select id="queryByProtocolIds" parameterType="java.util.List" resultMap="McpProtocolMappingMap">
+        SELECT id, protocol_id, mapping_type, parent_path, field_name, mcp_path, mcp_type, mcp_desc,
+        is_required, sort_order
+        FROM mcp_protocol_mapping
+        WHERE protocol_id IN
+        <foreach collection="list" item="pid" open="(" separator="," close=")">
+            #{pid}
+        </foreach>
+        ORDER BY protocol_id, sort_order ASC
+    </select>
+
+    <delete id="deleteByProtocolId" parameterType="java.lang.Long">
+        DELETE FROM mcp_protocol_mapping WHERE protocol_id = #{protocolId}
+    </delete>
+
 </mapper>

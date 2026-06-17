@@ -22,6 +22,10 @@ public class HTTPProtocolVO {
     private String httpHeaders;
     private String httpMethod;
     private Integer timeout;
+    /** 重试次数 0-10 */
+    private Integer retryTimes;
+    /** 启用状态 0-禁用 / 1-启用 */
+    private Integer status;
 
     private List<ProtocolMapping> mappings;
 

@@ -1,8 +1,10 @@
 package cn.tomato.ai.infrastructure.dao.po;
 
+import cn.tomato.ai.infrastructure.dao.po.base.BasePagePO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -10,12 +12,16 @@ import java.util.Date;
 /**
  * MCP网关工具表持久化对象
  * 对应表：mcp_gateway_tool
+ *
+ * @author Wxh
+ * @date 2026-06-15
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class McpGatewayToolPO {
+public class McpGatewayToolPO extends BasePagePO {
 
     /**
      * 自增ID

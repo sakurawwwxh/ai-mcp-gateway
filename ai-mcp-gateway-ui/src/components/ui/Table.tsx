@@ -20,6 +20,7 @@ interface Props<T> {
   onRetry?: () => void;
   emptyTitle?: string;
   emptyDesc?: string;
+  emptyAction?: ReactNode;
 }
 
 const ALIGN: Record<NonNullable<Column<unknown>['align']>, string> = {
@@ -28,11 +29,11 @@ const ALIGN: Record<NonNullable<Column<unknown>['align']>, string> = {
 
 export function Table<T>({
   columns, data, rowKey, loading, error, onRetry,
-  emptyTitle = '暂无数据', emptyDesc,
+  emptyTitle = '暂无数据', emptyDesc, emptyAction,
 }: Props<T>) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-sm">
+      <table className="w-full text-[13px]">
         <thead className="bg-[var(--bg-sunken)] border-b border-[var(--border-default)]">
           <tr>
             {columns.map((c) => (
@@ -66,7 +67,7 @@ export function Table<T>({
           {!loading && !error && data.length === 0 && (
             <tr>
               <td colSpan={columns.length}>
-                <EmptyState title={emptyTitle} desc={emptyDesc} />
+                <EmptyState title={emptyTitle} desc={emptyDesc} action={emptyAction} />
               </td>
             </tr>
           )}
@@ -75,7 +76,7 @@ export function Table<T>({
               {columns.map((c) => (
                 <td
                   key={c.key}
-                  className={`px-4 py-3 text-[var(--text-primary)] ${ALIGN[c.align ?? 'left']}`}
+                  className={`px-4 py-3 leading-relaxed text-[var(--text-primary)] ${ALIGN[c.align ?? 'left']}`}
                 >
                   {c.render(row)}
                 </td>

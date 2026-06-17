@@ -32,7 +32,7 @@ export class ApiError extends Error {
   }
 }
 
-interface BodyShape { code?: string; info?: string; data?: unknown }
+interface BodyShape { code?: string; info?: string; data?: unknown; total?: number }
 
 function unauthorized() {
   useAuthStore.getState().logout();
@@ -46,7 +46,13 @@ client.interceptors.response.use(
       throw new ApiError('UNAUTHORIZED', 401, '1003', res.data?.info || '会话过期');
     }
     const code = res.data?.code;
-    if (code === '0000') return res.data.data as any;
+    if (code === '0000') {
+      // ResponsePage 分页响应：保留 total 字段
+      if (typeof (res.data as any).total === 'number') {
+        return { data: res.data.data, total: (res.data as any).total } as any;
+      }
+      return res.data.data as any;
+    }
     if (code === '1003') {
       unauthorized();
       throw new ApiError('UNAUTHORIZED', res.status, code, res.data?.info || '登录已过期');

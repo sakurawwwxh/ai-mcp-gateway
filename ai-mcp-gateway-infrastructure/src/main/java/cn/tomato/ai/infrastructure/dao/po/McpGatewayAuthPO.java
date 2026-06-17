@@ -1,15 +1,21 @@
 package cn.tomato.ai.infrastructure.dao.po;
 
+import cn.tomato.ai.infrastructure.dao.po.base.BasePagePO;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
 /**
  * 网关认证持久化对象
  * 对应表：mcp_gateway_auth
+ *
+ * @author Wxh
+ * @date 2026-06-15
  */
 @Data
-public class McpGatewayAuthPO {
+@EqualsAndHashCode(callSuper = true)
+public class McpGatewayAuthPO extends BasePagePO {
     /**
      * 主键ID
      */

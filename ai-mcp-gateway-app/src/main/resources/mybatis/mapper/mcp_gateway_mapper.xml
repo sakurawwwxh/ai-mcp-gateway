@@ -60,4 +60,23 @@
         WHERE gateway_id = #{gatewayId}
     </select>
 
+    <select id="queryGatewayListCount" parameterType="cn.tomato.ai.infrastructure.dao.po.McpGatewayPO" resultType="java.lang.Long">
+        SELECT COUNT(1) FROM mcp_gateway
+        <where>
+            <if test="gatewayId != null and gatewayId != ''">AND gateway_id LIKE CONCAT('%', #{gatewayId}, '%')</if>
+            <if test="gatewayName != null and gatewayName != ''">AND gateway_name LIKE CONCAT('%', #{gatewayName}, '%')</if>
+        </where>
+    </select>
+
+    <select id="queryGatewayList" parameterType="cn.tomato.ai.infrastructure.dao.po.McpGatewayPO" resultMap="McpGatewayMap">
+        SELECT id, gateway_id, gateway_name, gateway_desc, version, status, auth, create_time, update_time
+        FROM mcp_gateway
+        <where>
+            <if test="gatewayId != null and gatewayId != ''">AND gateway_id LIKE CONCAT('%', #{gatewayId}, '%')</if>
+            <if test="gatewayName != null and gatewayName != ''">AND gateway_name LIKE CONCAT('%', #{gatewayName}, '%')</if>
+        </where>
+        ORDER BY id DESC
+        LIMIT #{limitStart}, #{limitCount}
+    </select>
+
 </mapper>

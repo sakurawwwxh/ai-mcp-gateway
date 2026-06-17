@@ -49,8 +49,8 @@ public class ProtocolRepository implements IProtocolRepository {
                     .httpMethod(httpProtocolVO.getHttpMethod())
                     .httpHeaders(httpProtocolVO.getHttpHeaders())
                     .timeout(httpProtocolVO.getTimeout())
-                    .retryTimes(3)
-                    .status(ProtocolStatusEnum.ENABLE.getCode())
+                    .retryTimes(httpProtocolVO.getRetryTimes() != null ? httpProtocolVO.getRetryTimes() : 0)
+                    .status(httpProtocolVO.getStatus() != null ? httpProtocolVO.getStatus() : ProtocolStatusEnum.ENABLE.getCode())
                     .build();
             protocolHttpDao.insert(mcpProtocolHttpPO);
 
