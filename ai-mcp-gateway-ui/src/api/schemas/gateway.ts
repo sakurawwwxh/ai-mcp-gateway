@@ -64,7 +64,9 @@ export const GatewayProtocolSchema = z.object({
     httpUrl: z.string().url('请输入有效 URL'),
     httpMethod: z.enum(['GET', 'POST', 'PUT', 'DELETE']).default('GET'),
     httpHeaders: z.string().default('{}'),
-    timeout: intCoerce.refine((n) => n >= 100 && n <= 60_000, '100-60000ms').default(5000),
+    timeout: intCoerce.refine((n) => n >= 100 && n <= 60_000, '100-60000ms').default(30000),
+    retryTimes: intCoerce.refine((n) => n >= 0 && n <= 10, '0-10').default(0),
+    status: intEnum([0, 1]).default(1),
   }),
   mapping: z.array(ProtocolMappingSchema).default([]),
 });
@@ -72,7 +74,7 @@ export type GatewayProtocolInput = z.infer<typeof GatewayProtocolSchema>;
 
 export const GatewayAuthSchema = z.object({
   gatewayId: z.string().min(1),
-  rateLimit: intCoerce.refine((n) => n >= 1, '至少 1').default(100),
+  rateLimit: intCoerce.refine((n) => n >= 1, '至少 1').default(1000),
   // datetime-local 输出 YYYY-MM-DDTHH:mm, 后端期望 yyyy-MM-dd'T'HH:mm:ss
   expireTime: z.string().min(1, '请选择过期时间').transform((v) => {
     if (v.length === 16) return v + ':00';
@@ -98,3 +100,100 @@ export const SaveGatewayResultSchema = z.object({
   apiKey: z.string().optional(),
 });
 export type SaveGatewayResult = z.infer<typeof SaveGatewayResultSchema>;
+
+/* === 分页基类（必须先定义，下方 extend 都依赖） === */
+
+export const PageQuerySchema = z.object({
+  page: z.number().int().min(1).default(1),
+  rows: z.number().int().min(1).max(100).default(10),
+});
+export type PageQueryInput = z.infer<typeof PageQuerySchema>;
+
+export const GatewayConfigQuerySchema = PageQuerySchema.extend({
+  gatewayId: z.string().optional().default(''),
+  gatewayName: z.string().optional().default(''),
+});
+export type GatewayConfigQueryInput = z.infer<typeof GatewayConfigQuerySchema>;
+
+export interface PageResult<T> {
+  data: T[];
+  total: number;
+}
+
+/* === 工具列表 DTO === */
+
+export const GatewayToolConfigDTOSchema = z.object({
+  gatewayId: z.string(),
+  toolId: z.number(),
+  toolName: z.string(),
+  toolType: z.string(),
+  toolDescription: z.string().nullish(),
+  toolVersion: z.string(),
+  protocolId: z.number().nullish(),
+  protocolType: z.string().nullish(),
+});
+export type GatewayToolConfigDTO = z.infer<typeof GatewayToolConfigDTOSchema>;
+
+export const GatewayToolQuerySchema = PageQuerySchema.extend({
+  gatewayId: z.string().optional().default(''),
+  toolName: z.string().optional().default(''),
+  toolId: z.string().optional().default(''),
+});
+export type GatewayToolQueryInput = z.infer<typeof GatewayToolQuerySchema>;
+
+/* === 鉴权列表 DTO === */
+
+export const GatewayAuthDTOSchema = z.object({
+  gatewayId: z.string(),
+  apiKey: z.string().nullish(),
+  rateLimit: z.number(),
+  expireTime: z.string().nullish(),
+});
+export type GatewayAuthDTO = z.infer<typeof GatewayAuthDTOSchema>;
+
+export const GatewayAuthQuerySchema = PageQuerySchema.extend({
+  gatewayId: z.string().optional().default(''),
+});
+export type GatewayAuthQueryInput = z.infer<typeof GatewayAuthQuerySchema>;
+
+/* === 协议列表 DTO === */
+
+export const ProtocolMappingDTOSchema = z.object({
+  mappingType: z.string(),
+  parentPath: z.string().nullish(),
+  fieldName: z.string(),
+  mcpPath: z.string(),
+  mcpType: z.string(),
+  mcpDesc: z.string().nullish(),
+  isRequired: z.number(),
+  sortOrder: z.number(),
+});
+export type ProtocolMappingDTO = z.infer<typeof ProtocolMappingDTOSchema>;
+
+export const GatewayProtocolDTOSchema = z.object({
+  protocolId: z.number().nullish(),
+  httpUrl: z.string(),
+  httpMethod: z.string(),
+  httpHeaders: z.string().nullish(),
+  timeout: z.number().nullish(),
+  retryTimes: z.number().nullish(),
+  status: z.number().nullish(),
+  mappings: z.array(ProtocolMappingDTOSchema).default([]),
+});
+export type GatewayProtocolDTO = z.infer<typeof GatewayProtocolDTOSchema>;
+
+export const GatewayProtocolQuerySchema = PageQuerySchema.extend({
+  protocolId: z.union([z.literal(''), z.coerce.number().int().positive()]).optional(),
+  gatewayId: z.string().optional().default(''),
+  httpUrl: z.string().optional().default(''),
+});
+export type GatewayProtocolQueryInput = z.infer<typeof GatewayProtocolQuerySchema>;
+
+/* === Swagger 协议导入 === */
+
+export const GatewayProtocolImportSchema = z.object({
+  gatewayId: z.string().min(1, '请填写归属网关'),
+  openApiJson: z.string().min(2, '请粘贴 Swagger JSON'),
+  endpoints: z.array(z.string()).optional(),
+});
+export type GatewayProtocolImportInput = z.infer<typeof GatewayProtocolImportSchema>;
