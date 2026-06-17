@@ -40,3 +40,25 @@ build/
 /.mvn/
 /.idea/
 node_modules
+
+# Superpowers brainstorm scratch
+.superpowers/brainstorm/
+.superpowers/plans/
+.superpowers/specs/
+
+# Root workspace metadata (pnp/monorepo) — keep local only
+/package.json
+/pnpm-lock.yaml
+
+# Log files
+*.log
+**/data/log/
+
+# UI env files (keep .env.example as template)
+/ai-mcp-gateway-ui/.env.development
+/ai-mcp-gateway-ui/.env.production
+!/ai-mcp-gateway-ui/.env.example
+
+# Root project meta files (Claude / Codex / agents)
+/AGENTS.md
+/GEMINI.md
