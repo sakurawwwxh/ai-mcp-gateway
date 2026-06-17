@@ -6,6 +6,8 @@ import cn.tomato.ai.api.dto.GatewayConfigDTO;
 import cn.tomato.ai.api.dto.GatewayConfigQueryDTO;
 import cn.tomato.ai.api.dto.GatewayConfigRequestDTO;
 import cn.tomato.ai.api.dto.GatewayConfigResponseDTO;
+import cn.tomato.ai.api.dto.GatewayLLMRequestDTO;
+import cn.tomato.ai.api.dto.GatewayLLMResponseDTO;
 import cn.tomato.ai.api.dto.GatewayProtocolDTO;
 import cn.tomato.ai.api.dto.GatewayProtocolQueryDTO;
 import cn.tomato.ai.api.dto.GatewayToolConfigDTO;
@@ -14,6 +16,7 @@ import cn.tomato.ai.api.response.Response;
 import cn.tomato.ai.api.response.ResponsePage;
 import cn.tomato.ai.cases.admin.IAdminAuthService;
 import cn.tomato.ai.cases.admin.IAdminGatewayService;
+import cn.tomato.ai.cases.admin.IAdminLLMService;
 import cn.tomato.ai.cases.admin.IAdminManageService;
 import cn.tomato.ai.cases.admin.IAdminProtocolService;
 import cn.tomato.ai.domain.admin.model.entity.GatewayAuthConfigEntity;
@@ -67,6 +70,7 @@ public class AdminController {
     @Resource private IAdminProtocolService adminProtocolService;
     @Resource private IAdminAuthService adminAuthService;
     @Resource private IAdminManageService adminManageService;
+    @Resource private IAdminLLMService adminLLMService;
 
     @PostMapping("save_gateway_config")
     public Response<GatewayConfigResponseDTO> saveGatewayConfig(@RequestBody GatewayConfigRequestDTO request) {
@@ -592,6 +596,32 @@ public class AdminController {
         } catch (Exception e) {
             log.error("导入网关协议失败", e);
             return unError();
+        }
+    }
+
+    /**
+     * LLM 对接测试：通过 ChatModel + MCP 协议回调，验证 LLM 能自主调用网关工具。
+     *
+     * @param request gatewayId / message / authApiKey / timeout / reload
+     * @return LLM 回复文本
+     */
+    @PostMapping("test_call_gateway")
+    public Response<GatewayLLMResponseDTO> testCallGateway(@RequestBody GatewayLLMRequestDTO request) {
+        try {
+            log.info("LLM测试调用开始 gatewayId:{}", request.getGatewayId());
+            String content = adminLLMService.testCallGateway(request);
+            log.info("LLM测试调用完成 gatewayId:{}", request.getGatewayId());
+            return Response.<GatewayLLMResponseDTO>builder()
+                    .code(ResponseCode.SUCCESS.getCode())
+                    .info(ResponseCode.SUCCESS.getInfo())
+                    .data(GatewayLLMResponseDTO.builder().content(content).build())
+                    .build();
+        } catch (Exception e) {
+            log.error("LLM测试调用失败 gatewayId:{}", request.getGatewayId(), e);
+            return Response.<GatewayLLMResponseDTO>builder()
+                    .code(ResponseCode.UN_ERROR.getCode())
+                    .info(ResponseCode.UN_ERROR.getInfo())
+                    .build();
         }
     }
 

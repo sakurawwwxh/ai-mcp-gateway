@@ -93,4 +93,20 @@ public class GatewayRepository implements IGatewayRepository {
         }
     }
 
+    @Override
+    public GatewayConfigVO queryGatewayConfig(String gatewayId) {
+        McpGatewayPO mcpGatewayPO = mcpGatewayDao.queryMcpGatewayByGatewayId(gatewayId);
+        if (null == mcpGatewayPO) {
+            return null;
+        }
+        return GatewayConfigVO.builder()
+                .gatewayId(mcpGatewayPO.getGatewayId())
+                .gatewayName(mcpGatewayPO.getGatewayName())
+                .gatewayDesc(mcpGatewayPO.getGatewayDesc())
+                .version(mcpGatewayPO.getVersion())
+                .auth(GatewayEnum.GatewayAuthStatusEnum.getByCode(mcpGatewayPO.getAuth()))
+                .status(GatewayEnum.GatewayStatus.get(mcpGatewayPO.getStatus()))
+                .build();
+    }
+
 }
