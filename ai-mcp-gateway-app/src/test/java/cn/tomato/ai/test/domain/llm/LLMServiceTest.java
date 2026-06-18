@@ -38,8 +38,8 @@ public class LLMServiceTest {
         // 1. 拼装 MCP 连接配置（指向本地网关 gateway_005）
         McpConfigVO mcpConfigVO = McpConfigVO.builder()
                 .baseUri("http://127.0.0.1:8777")
-                .sseEndpoint("/api-gateway/gateway_005/mcp/sse?api_key=f7c3b9e2a1d84f6e9b0c3a5d7e8f1a2b")
-                .authApiKey("f7c3b9e2a1d84f6e9b0c3a5d7e8f1a2b")
+                .sseEndpoint("/api-gateway/gateway_005/mcp/sse?api_key=gw-GPJBQHFeBWVMSGASFii5xtsmlHF5SjURFwh7C7yGRP3UtX")
+                .authApiKey("gw-GPJBQHFeBWVMSGASFii5xtsmlHF5SjURFwh7C7yGRP3UtX")
                 .timeout(60000L)
                 .build();
 

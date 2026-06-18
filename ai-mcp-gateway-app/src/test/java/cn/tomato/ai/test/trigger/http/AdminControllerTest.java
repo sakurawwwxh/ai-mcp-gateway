@@ -37,7 +37,7 @@ public class AdminControllerTest {
         GatewayLLMRequestDTO request = GatewayLLMRequestDTO.builder()
                 .gatewayId("gateway_005")
                 .message("查询北京字节跳动的员工信息")
-                .authApiKey("f7c3b9e2a1d84f6e9b0c3a5d7e8f1a2b")
+                .authApiKey("gw-GPJBQHFeBWVMSGASFii5xtsmlHF5SjURFwh7C7yGRP3UtX")
                 .timeout(60000L)
                 .reload(true)
                 .build();
