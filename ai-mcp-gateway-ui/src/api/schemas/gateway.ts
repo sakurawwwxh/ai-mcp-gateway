@@ -197,3 +197,17 @@ export const GatewayProtocolImportSchema = z.object({
   endpoints: z.array(z.string()).optional(),
 });
 export type GatewayProtocolImportInput = z.infer<typeof GatewayProtocolImportSchema>;
+
+/* === LLM 对接测试网关 === */
+
+export const GatewayLLMRequestSchema = z.object({
+  gatewayId: z.string().min(1, '请填写网关 ID'),
+  message: z.string().min(1, '请输入测试消息'),
+  authApiKey: z.string().optional().default(''),
+  timeout: intCoerce.refine((n) => n >= 1000 && n <= 300_000, '1000-300000ms').default(60000),
+  reload: z.boolean().default(false),
+});
+export type GatewayLLMRequestInput = z.infer<typeof GatewayLLMRequestSchema>;
+
+export const GatewayLLMResponseSchema = z.object({ content: z.string() });
+export type GatewayLLMResponse = z.infer<typeof GatewayLLMResponseSchema>;

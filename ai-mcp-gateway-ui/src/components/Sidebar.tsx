@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Server, Sliders, Wrench, Network, ShieldCheck, LogOut } from 'lucide-react';
+import { LayoutDashboard, Server, Sliders, Wrench, Network, ShieldCheck, FlaskConical, LogOut } from 'lucide-react';
 import { useAuthStore } from '../stores/auth';
 
 type NavItem = { to: string; label: string; icon: typeof LayoutDashboard; end?: boolean };
@@ -14,6 +14,7 @@ const CONFIG: NavItem[] = [
   { to: '/admin/tools',     label: '工具配置',   icon: Wrench },
   { to: '/admin/protocols', label: '协议配置',   icon: Network },
   { to: '/admin/auth',      label: '认证配置',   icon: ShieldCheck },
+  { to: '/admin/llm-test',  label: 'LLM 测试',   icon: FlaskConical },
 ];
 
 function NavGroup({ label, items }: { label: string; items: NavItem[] }) {

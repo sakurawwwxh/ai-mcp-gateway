@@ -10,6 +10,7 @@ const Configs = lazy(() => import('./pages/Configs'));
 const Tools = lazy(() => import('./pages/Tools'));
 const Protocols = lazy(() => import('./pages/Protocols'));
 const Auth = lazy(() => import('./pages/Auth'));
+const LlmTest = lazy(() => import('./pages/LlmTest'));
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
   const token = useAuthStore((s) => s.token);
@@ -35,6 +36,7 @@ const router = createBrowserRouter([
       { path: 'tools',     element: <Suspense fallback={Fallback}><Tools     /></Suspense> },
       { path: 'protocols', element: <Suspense fallback={Fallback}><Protocols /></Suspense> },
       { path: 'auth',      element: <Suspense fallback={Fallback}><Auth      /></Suspense> },
+      { path: 'llm-test',  element: <Suspense fallback={Fallback}><LlmTest  /></Suspense> },
     ],
   },
   { path: '*', element: <Navigate to="/admin" replace /> },

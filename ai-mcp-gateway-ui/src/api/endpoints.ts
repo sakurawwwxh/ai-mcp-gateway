@@ -18,4 +18,5 @@ export const ENDPOINTS = {
   deleteGatewayAuth: '/admin/delete_gateway_auth',
   analysisProtocol: '/admin/analysis_protocol',
   importGatewayProtocol: '/admin/import_gateway_protocol',
+  testCallGateway: '/admin/test_call_gateway',
 } as const;

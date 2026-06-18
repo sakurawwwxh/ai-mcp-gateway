@@ -16,6 +16,8 @@ import type {
   GatewayAuthQueryInput,
   GatewayProtocolDTO,
   GatewayProtocolQueryInput,
+  GatewayLLMRequestInput,
+  GatewayLLMResponse,
 } from '../schemas/gateway';
 
 export type { GatewayConfigDTO, SaveGatewayResult, GatewayToolConfigDTO, GatewayAuthDTO, GatewayProtocolDTO };
@@ -184,5 +186,19 @@ export function useImportProtocol() {
   return useMutation<SaveGatewayResult, ApiError, { gatewayId: string; openApiJson: string; endpoints: string[] }>({
     mutationFn: (v) => unwrap(client.post(ENDPOINTS.importGatewayProtocol, { gatewayProtocolImport: v })),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['protocols'] }); },
+  });
+}
+
+/* === LLM 对接测试网关 === */
+
+/**
+ * 通过 ChatModel + MCP 协议回调测试网关工具链路。
+ * 后端 testCallGateway 直接 @RequestBody GatewayLLMRequestDTO（不包 wrapper）。
+ * LLM 推理 + 工具调用耗时较长，按请求 timeout 上浮覆盖 axios 默认 8s 超时。
+ */
+export function useTestCallGateway() {
+  return useMutation<GatewayLLMResponse, ApiError, GatewayLLMRequestInput>({
+    mutationFn: (v) =>
+      unwrap(client.post(ENDPOINTS.testCallGateway, v, { timeout: Math.max(60_000, (v.timeout ?? 60_000) + 30_000) })),
   });
 }
