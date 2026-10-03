@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" width="96" height="96" role="img" aria-label="ai-mcp-gateway">
+  <title>ai-mcp-gateway</title>
+  <defs><linearGradient id="sea" x1="0.15" y1="0" x2="0.85" y2="1">
+      <stop offset="0" stop-color="#2dd4bf"/><stop offset="0.55" stop-color="#0d9488"/><stop offset="1" stop-color="#0b5d55"/>
+    </linearGradient><linearGradient id="belly" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#d6fff7"/>
+    </linearGradient></defs>
+  <circle cx="48" cy="48" r="46" fill="url(#sea)"/>
+  <circle cx="48" cy="48" r="46" fill="none" stroke="#ffffff" stroke-opacity="0.18" stroke-width="2"/>
+  <path d="M14 56C26 40 38 40 48 48c10 8 14 14 22 6 6-6 10-10 14-10" fill="none" stroke="url(#belly)" stroke-width="9" stroke-linecap="round"/>
+  <path id="gw-route" d="M14 56C26 40 38 40 48 48c10 8 14 14 22 6 6-6 10-10 14-10" fill="none" stroke="none"/>
+  <circle cx="27" cy="46" r="4.6" fill="#ffffff"/>
+  <circle cx="62" cy="57" r="3.4" fill="#ffffff" opacity="0.8"/>
+  <g fill="#ffffff" opacity="0.5">
+    <circle cx="27" cy="27" r="2.6"/><circle cx="34" cy="21" r="1.6"/><circle cx="22" cy="20" r="1.2"/>
+  </g>
+</svg>
