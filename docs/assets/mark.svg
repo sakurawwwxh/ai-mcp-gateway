@@ -9,8 +9,16 @@
   <circle cx="48" cy="48" r="46" fill="none" stroke="#ffffff" stroke-opacity="0.18" stroke-width="2"/>
   <path d="M14 56C26 40 38 40 48 48c10 8 14 14 22 6 6-6 10-10 14-10" fill="none" stroke="url(#belly)" stroke-width="9" stroke-linecap="round"/>
   <path id="gw-route" d="M14 56C26 40 38 40 48 48c10 8 14 14 22 6 6-6 10-10 14-10" fill="none" stroke="none"/>
-  <circle cx="27" cy="46" r="4.6" fill="#ffffff"/>
-  <circle cx="62" cy="57" r="3.4" fill="#ffffff" opacity="0.8"/>
+  <circle r="6" fill="#ffffff">
+    <animateMotion dur="4s" repeatCount="indefinite" rotate="auto">
+      <mpath href="#gw-route"/>
+    </animateMotion>
+  </circle>
+  <circle r="4.4" fill="#ffffff" opacity="0.85">
+    <animateMotion dur="4s" begin="-1.6s" repeatCount="indefinite" rotate="auto">
+      <mpath href="#gw-route"/>
+    </animateMotion>
+  </circle>
   <g fill="#ffffff" opacity="0.5">
     <circle cx="27" cy="27" r="2.6"/><circle cx="34" cy="21" r="1.6"/><circle cx="22" cy="20" r="1.2"/>
   </g>
